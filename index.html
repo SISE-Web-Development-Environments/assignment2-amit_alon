@@ -1,21 +1,110 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="styleSheet1.css">
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 	</head>
+	<header> 
+
+		<!---    Insert logo & other information here    -->
+	
+	</header>
+
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+		<!---    Welcome screen    -->
+		<div id="welcome" > 
+			<h1 style="font-family:courier;"> Welcome! </h1>
+			<img src="loginpic.JPEG" id="imglogin" width=120>
+			<button id="loginBtn" type="button" class="b1" > Login </button>
+			<button id="registerBtn" type="button" class="b2">Register</button>
+			
 		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+
+
+		<!---    Login screen    -->
+		<div class="container" id="login" style="display: none;" >
+			<div class="login-content">
+				<img height="180" src="packman.JPEG" alt="packman"/>
+			
+				<form action="index.html">
+					<h2 class="title">Login</h2>
+					   <div class="input-div one">
+						  <div class="i">
+								  <i class="fas fa-user"></i>
+						  </div>
+						  <div class="div">
+								  <h4>Username</h4>
+								  <input type="text" class="input">
+						  </div>
+					   </div>
+					   <div class="input-div pass">
+						  <div class="i"> 
+							   <i class="fas fa-lock"></i>
+						  </div>
+						  <div class="div">
+							   <h4>Password</h4>
+							   <input type="password" class="input">
+					   </div>
+					</div>
+					<input id= "submitLoginBtn" type="submit" class="btn" value="Login">
+				</form>
+			</div>
 		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
+
+			<!---    Register screen    -->
+			<div class="container" id="register" style="display: none;" >
+				<div class="register-content">
+					<form action="index.html">
+
+						<!-- Implement here!!!!-->
+						<h2 class="title">Register</h2>
+						   <div class="input-div one">
+							  <div class="i">
+									  <i class="fas fa-user"></i>
+							  </div>
+							  <div class="div">
+									  <h4>Username</h4>
+									  <input type="text" class="input">
+							  </div>
+						   </div>
+						   <div class="input-div pass">
+							  <div class="i"> 
+								   <i class="fas fa-lock"></i>
+							  </div>
+							  <div class="div">
+								   <h4>Password</h4>
+								   <input type="password" class="input">
+						   </div>
+						   <div class="div">
+							<h4>Password</h4>
+							<input type="password" class="input">
+					</div>
+						</div>
+						<input type="submit" class="btn" value="Login">
+					</form>
+				</div>
+			</div>
+
+
+<div id="GameScreen" style="display: none">
+	<div id="score" style="display: none;" >
+		<label for="lblScore">SCORE:</label>
+		<input id="lblScore" type="text" />
+	</div>
+	<div id="time"  style="display: none;" >
+		<label for="lblTime">TIME:</label>
+		<input id="lblTime" type="text" />
+	</div>
+	<div id="game">
+		<canvas id="canvas" height="600" width="600"></canvas>
+	</div>
+</div>
+		
 	</body>
+
+
+
+
 </html>

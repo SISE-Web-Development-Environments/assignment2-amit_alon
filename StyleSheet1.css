@@ -1,0 +1,14 @@
+﻿body
+{
+}
+
+
+button.b1{
+	position: absolute;
+  left: 35px;
+  top: 270;
+}button.b2{
+	position: absolute;
+  left: 85px;
+  top: 270;
+}

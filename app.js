@@ -7,10 +7,44 @@ var start_time;
 var time_elapsed;
 var interval;
 
+window.addEventListener("load", setupWelcomeScreen, false);
+
+// called when the app first launches
+function setupWelcomeScreen()
+{
+	// go to login screen when user clicks on login button
+	document.getElementById("loginBtn").addEventListener("click", login, false);
+
+	// go to register screen when user clicks on register button
+	document.getElementById("registerBtn").addEventListener("click", register, false);
+
+
+}
+
 $(document).ready(function() {
 	context = canvas.getContext("2d");
-	Start();
+	
+	//Start();
 });
+
+
+function login() {
+	document.getElementById("login").style.display='block' ;
+	document.getElementById("register").style.display='none' ;
+	document.getElementById("welcome").style.display='none' ;
+	document.getElementById("submitLoginBtn").addEventListener("click", validateLogin, false);
+	
+	}
+	
+function validateLogin(){
+
+}
+
+	function register() {
+	document.getElementById("register").style.display='block' ;
+	document.getElementById("login").style.display='none' ;
+	document.getElementById("welcome").style.display='none' ;
+	}
 
 function Start() {
 	board = new Array();
