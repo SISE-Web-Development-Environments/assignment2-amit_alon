@@ -28,7 +28,7 @@
 			<div class="login-content">
 				<img height="180" src="packman.JPEG" alt="packman"/>
 			
-				<form action="index.html">
+				<form id="loginForm" class="form">
 					<h2 class="title">Login</h2>
 					   <div class="input-div one">
 						  <div class="i">
@@ -36,7 +36,7 @@
 						  </div>
 						  <div class="div">
 								  <h4>Username</h4>
-								  <input type="text" class="input">
+								  <input id="usernameInput" type="text" class="input">
 						  </div>
 					   </div>
 					   <div class="input-div pass">
@@ -45,11 +45,13 @@
 						  </div>
 						  <div class="div">
 							   <h4>Password</h4>
-							   <input type="password" class="input">
+							   <input id="passwordInput" type="password" class="input">
 					   </div>
 					</div>
-					<input id= "submitLoginBtn" type="submit" class="btn" value="Login">
+					<input id= "submit" type="submit" class="submit" value="submit">
 				</form>
+				<br>
+				<a href="index.html">Back to main page</a>
 			</div>
 		</div>
 

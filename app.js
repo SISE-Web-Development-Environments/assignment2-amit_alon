@@ -6,6 +6,7 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var user_password_map= new Map(); 
 
 window.addEventListener("load", setupWelcomeScreen, false);
 
@@ -17,6 +18,9 @@ function setupWelcomeScreen()
 
 	// go to register screen when user clicks on register button
 	document.getElementById("registerBtn").addEventListener("click", register, false);
+
+	// set difault user's credentials
+	user_password_map.set("p","p");
 
 
 }
@@ -32,11 +36,31 @@ function login() {
 	document.getElementById("login").style.display='block' ;
 	document.getElementById("register").style.display='none' ;
 	document.getElementById("welcome").style.display='none' ;
-	document.getElementById("submitLoginBtn").addEventListener("click", validateLogin, false);
-	
+	$("#loginForm").submit(function(e){
+		e.preventDefault();
+		validateLogin();
+	})
+
 	}
 	
 function validateLogin(){
+
+
+	// Get the values from the fields
+	let username = $("#usernameInput").val();
+	let password = $("#passwordInput").val();
+
+	// Check for blank fields.
+	if(username =="" || password==""){
+		$('input[id="usernameInput"],input[id="passwordInput"]').css("border","2px solid red");
+		$('input[id="usernameInput"],input[id="passwordInput"]').css("box-shadow","0 0 3px red");
+
+		alert("Please fill in username and password.");
+		login();
+	}
+	else{
+
+	}
 
 }
 
