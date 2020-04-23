@@ -63,9 +63,9 @@ function validateLogin(){
 	else{
 		//check if user name and password correct
 		var userPassword = sessionStorage.getItem(username);
-		if(userExists !== null){
-			var userPassword = userExists;
-			if(pass == password){
+		debugger;
+		if(userPassword !== null){
+			if(userPassword == password){
 				alert("Login succeeded!");
 				//now need to move to the settings before game window
 			}
@@ -230,7 +230,7 @@ function freeUserName(s) {
 			if(freeUserName(username)) {
 				alert("Registration Successfull");
 				var password = $("#form_password").val();
-				user_password_map.set(username,password);
+				sessionStorage.setItem(username,password);
 				 return true;
 
 				}
