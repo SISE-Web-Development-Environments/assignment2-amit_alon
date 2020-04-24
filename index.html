@@ -95,11 +95,87 @@
 				</div>
 			</div>
 
+<div id="settings" style="display: none;">
+	<form id="settingsForm" class="form">
+		<h2 class="title">Settings</h2>
+		   <div class="input-div one">
+
+			<!--keyboard controls picker-->
+			  <div class="i">
+				<h1 class="innerTitle">Chhose keyboard controls</h1>
+					  <i class="keysControl"></i>
+			  </div>
+			  <div class="key">
+					  <h4>Up</h4>
+					  <input id="up" type="text" class="input" onkeydown="setUpKey(event)" title="ddd">
+					  <p id="upVal"></p>
+			  </div>
+			  <div class="key">
+				<h4>Down</h4>
+				<input id="down" type="text" class="input" onkeydown="setDownKey(event)">
+			</div>
+			<div class="key">
+				<h4>Left</h4>
+				<input id="left" type="text" class="input" onkeydown="setLeftKey(event)">
+			</div>
+			<div class="key">
+				<h4>Right</h4>
+				<input id="right" type="text" class="input" onkeydown="setRightKey(event)">
+			</div>			
+		   </div>
+		   <div class="input-div pass">
+
+			<!--Candy amount picker-->
+			  <div class="i"> 
+				<h1 class="innerTitle">Choose candy amount</h1>
+				   <i class="fas fa-lock"></i>
+				   <label for="vol">Choose number of candies (between 50 and 90):</label>
+				   <input id= "candyAmount" class="range-slider__range" type="range" min="50" max="90" value="50">
+				   <output  id= "candyAmountVal" class="range-slider__value">0</output>
+			  </div>
+
+			<!--Candy colors picker-->
+			  <div class="i">
+				  <h1 class="innerTitle"> Choose candy colors</h1>
+				  <label for="color_5_Points"> 5 point (60%)</label>
+				  <input class ="CandyColor" type="color" id="color_5_Points" name="color_5_Points" value="#ff0000">
+				  <label for="color_15_Points"> 15 point (30%)</label>
+				  <input class ="CandyColor" type="color" id="color_15_Points" name="color_15_Points" value="#ff0000">
+				  <label for="color_25_Points"> 25 point (10%)</label>
+				  <input class ="CandyColor" type="color" id="color_25_Points" name="color_25_Points" value="#ff0000">
+			  </div>
+
+			<!--Game length picker-->
+			  <div class="i"> 
+				   <i class="fas fa-lock"></i>
+				   <label for="vol">Select game length (in minutes)</label>
+				   <div class="range-slider">
+					<input id="gameLength" class="range-slider__range" type="range" value="1" min="1" max="6">
+					<output class="range-slider__value">0</output>
+			  </div>
+
+			  </div>
+			  <div class="i"> 
+			<!--Number of monsters length picker-->
+			<div class="range-slider">
+					<input id="monstersAmount" class="range-slider__range" type="range" value="1" min="1" max="4">
+					<output class="range-slider__value">0</output>
+			  </div>
+		</div>
+
+		<!--Random values button:-->
+
+		<input id= "submit" type="submit" class="submit" value="start!">
+	</form>
+	<button id= "randomButton" class = "randomButton"><p >Rendom values</p></button>
+	<br>
+	<a href="index.html">Back to main page</a>
+
+</div>
 
 
-
-<div id="GameScreen" style="display: none">
-	<div id="score" style="display: none;" >
+<div id="GameScreen" style="display: block;">
+	<div id="score" style="display: block;" >
 		<label for="lblScore">SCORE:</label>
 		<input id="lblScore" type="text" />
 	</div>

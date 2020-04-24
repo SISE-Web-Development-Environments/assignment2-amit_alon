@@ -8,6 +8,18 @@ var time_elapsed;
 var interval;
 var user_password_map= new Map(); 
 
+// settings vars:
+var keyUP;
+var keyDown;
+var keyLeft;
+var keyRight;
+var numOfMonsters;
+var numofCandies;
+var color_5_Points;
+var color_15_Points;
+var color_25_Points;
+var gameLength;
+
 
 sessionStorage;
 
@@ -29,13 +41,24 @@ function setupWelcomeScreen()
 
 
 
+
 }
 
-$(document).ready(function() {
-	context = canvas.getContext("2d");
+function setUpGame() {
 	
-	//Start();
-});
+	document.getElementById("settings").style.display='none' ;
+
+	document.getElementById("GameScreen").style.display='block' ;
+
+	
+	context = canvas.getContext("2d");
+
+	// put all settings values in theire places
+	getSettingValues();
+	// TODO implement here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	Start();
+}
 
 
 function login() {
@@ -66,13 +89,15 @@ function validateLogin(){
 	}
 	else{
 
-		//check if user name and password correct
-		var userPassword = sessionStorage.getItem(username);
+		//check if user name and password are correct
+		let userPassword = sessionStorage.getItem(username);
 		debugger;
 		if(userPassword !== null){
 			if(userPassword == password){
 				alert("Login succeeded!");
+
 				//now need to move to the settings before game window
+				settings();
 			}
 			else{
 				alert("Wrong Password");
@@ -86,6 +111,129 @@ function validateLogin(){
 
 }
 
+function settings(){
+
+		// Change screens
+	 	document.getElementById("settings").style.display='block';
+		document.getElementById("login").style.display='none';	
+		 
+	  	// build reange slider
+		  rangeSlider();
+
+		// prevent from random button to refresh + random values
+		$("#randomButton").click(function(e){
+			e.preventDefault();
+			randomValues();
+		})
+
+		$("#settingsForm").submit(function(e){
+			e.preventDefault();
+			setUpGame();
+		})
+}
+
+
+
+// get the keys values from the form
+function setUpKey(event){
+	keyUP = event.key;
+  	document.getElementById("upVal").innerHTML = "The pressed key was: " + keyUP;
+}
+
+function setDownKey(event){
+	keyDown = event.key;
+}
+function setLeftKey(event){
+	keyLeft = event.key;
+}
+function setRightKey(event){
+	keyRight = event.key;
+}
+
+function getSettingValues(){
+	 	// get the values from the form
+	 	numofCandies=$("#candyAmount").val();
+	  	numOfMonsters = $("#monstersAmount").val();
+		color_5_Points= $("#color_5_Points").val();
+		color_15_Points= $("#color_15_Points").val();
+		color_25_Points= $("#color_25_Points").val();
+		gameLength= $("#gameLength").val();
+}
+
+function randomValues(){
+
+	let tmp;
+
+	// random values
+	$("#up").val("Arrow up");//38
+	$("#down").val("Arrow down");//40
+	$("#left").val("Arrow left");//37
+	$("#right").val("Arrow right");//39
+	
+	keyUP=38;
+	keyDown=40;
+	keyLeft=37;
+	keyRight=39;
+
+
+	tmp= getRndInteger(50,90)
+	$("#candyAmount").val(tmp);
+	$("#candyAmount").next().val(tmp);
+
+	tmp= getRndInteger(1,4);
+	$("#monstersAmount").val();
+	$("#monstersAmount").next().val(tmp);
+
+	tmp= getRndInteger(1,6);
+	$("#gameLength").val(tmp);
+	$("#gameLength").next().val(tmp);
+
+	$("#color_5_Points").val(getRandomColor())
+	$("#color_15_Points").val(getRandomColor());
+	$("#color_25_Points").val(getRandomColor())
+
+}
+
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+	  color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+  }
+  
+// This JavaScript function always returns a random number between min and max (both included):
+function getRndInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) ) + min;
+  }
+
+function rangeSlider(){
+	var slider = $('.range-slider'),
+		range = $('.range-slider__range'),
+		value = $('.range-slider__value');
+	  
+	slider.each(function(){
+  
+	  value.each(function(){
+		var value = $(this).prev().attr('value');
+		$(this).html(value);
+	  });
+  
+	  range.on('input', function(){
+		$(this).next(value).html(this.value);
+	  });
+	});
+  };
+
+
+function updateRangeInput(elem) {
+  $(elem).next().val($(elem).val());
+}
+
+function updateRangeInputSlider(elem) {
+	$(elem).next().val($(elem).val());
+  }
 function freeUserName(s) {
 	if(sessionStorage.getItem(s) !== null)
 		return false;
@@ -101,11 +249,6 @@ function freeUserName(s) {
 		//validateRegister();
 	})
 	}
-
-
-
-
-
 
 
 	$(function() {
@@ -409,3 +552,5 @@ function UpdatePosition() {
 		Draw();
 	}
 }
+
+
