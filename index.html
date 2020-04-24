@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="styleSheet1.css">
 		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<script	src="https://code.jquery.com/jquery-3.5.0.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 	</head>
 	<header> 
@@ -16,7 +17,7 @@
 		<!---    Welcome screen    -->
 		<div id="welcome" > 
 			<h1 style="font-family:courier;"> Welcome! </h1>
-			<img src="loginpic.JPEG" id="imglogin" width=120>
+			<img src="packman.jpeg" id="imglogin" width=120>
 			<button id="loginBtn" type="button" class="b1" > Login </button>
 			<button id="registerBtn" type="button" class="b2">Register</button>
 			
@@ -56,38 +57,45 @@
 		</div>
 
 			<!---    Register screen    -->
-			<div class="container" id="register" style="display: none;" >
-				<div class="register-content">
-					<form action="index.html">
-
-						<!-- Implement here!!!!-->
-						<h2 class="title">Register</h2>
-						   <div class="input-div one">
-							  <div class="i">
-									  <i class="fas fa-user"></i>
-							  </div>
-							  <div class="div">
-									  <h4>Username</h4>
-									  <input type="text" class="input">
-							  </div>
-						   </div>
-						   <div class="input-div pass">
-							  <div class="i"> 
-								   <i class="fas fa-lock"></i>
-							  </div>
-							  <div class="div">
-								   <h4>Password</h4>
-								   <input type="password" class="input">
-						   </div>
-						   <div class="div">
-							<h4>Password</h4>
-							<input type="password" class="input">
-					</div>
+			<div class="hero" id="register" style="display: none;" >
+				<div class="form-box">
+					<form class="input-group" id="registration_form">
+						<div>
+							<input type="text" id="form_uname" class="input-field" placeholder="User Name" required>
+							<span class="error_form" id="uname_error_message"></span>
+			
 						</div>
-						<input type="submit" class="btn" value="Login">
+						<div>
+							<input type="text" id="form_fname" class="input-field" placeholder="First Name" required>
+							<span class="error_form" id="fname_error_message"></span>
+						</div>
+						<div>
+							<input type="text" id="form_lname" class="input-field" placeholder="Last Name" required>
+							<span class="error_form" id="lname_error_message"></span>
+			
+						</div>
+						<div>
+							<input type="email" id="form_email" class="input-field" placeholder="Email" required>
+							<span class="error_form" id="email_error_message"></span>
+						</div>
+						<div>
+							<input type="password" id="form_password" class="input-field" placeholder="Password" required>
+							<span class="error_form" id="password_error_message"></span>
+						</div>
+
+						<div>
+							<input placeholder="Birth Date" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" required />
+
+						</div>
+						<input type="submit" value="Register"  name="">
+							<div class="button-box"></div>
+							<a href="index.html">Back to main page</a>
+
 					</form>
 				</div>
 			</div>
+
+
 
 
 <div id="GameScreen" style="display: none">
