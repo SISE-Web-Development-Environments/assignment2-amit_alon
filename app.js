@@ -29,6 +29,10 @@ window.addEventListener("load", setupWelcomeScreen, false);
 // called when the app first launches
 function setupWelcomeScreen()
 {
+	displayNoneAllScreens();
+	document.getElementById("welcome").style.display='block' ;
+
+
 	// go to login screen when user clicks on login button
 	document.getElementById("loginBtn").addEventListener("click", login, false);
 
@@ -38,33 +42,22 @@ function setupWelcomeScreen()
 	// set difault user's credentials
 	user_password_map.set("p","p");
 	sessionStorage.setItem("p","p");
-
-
-
-
-}
-
-function setUpGame() {
-	
-	document.getElementById("settings").style.display='none' ;
-
-	document.getElementById("GameScreen").style.display='block' ;
-
-	
-	context = canvas.getContext("2d");
-
-	// put all settings values in theire places
-	getSettingValues();
-	// TODO implement here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-	Start();
 }
 
 
-function login() {
-	document.getElementById("login").style.display='block' ;
+function displayNoneAllScreens(){
+	document.getElementById("login").style.display='none' ;
 	document.getElementById("register").style.display='none' ;
 	document.getElementById("welcome").style.display='none' ;
+	document.getElementById("GameScreen").style.display='none' ;
+	document.getElementById("settingsScreen").style.display='none' ;
+
+
+}
+
+function login() {
+	displayNoneAllScreens();
+	document.getElementById("login").style.display='block' ;
 	$("#loginForm").submit(function(e){
 		e.preventDefault();
 		validateLogin();
@@ -114,8 +107,8 @@ function validateLogin(){
 function settings(){
 
 		// Change screens
-	 	document.getElementById("settings").style.display='block';
-		document.getElementById("login").style.display='none';	
+		displayNoneAllScreens()
+	 	document.getElementById("settingsScreen").style.display='block';
 		 
 	  	// build reange slider
 		  rangeSlider();
@@ -132,6 +125,19 @@ function settings(){
 		})
 }
 
+function setUpGame() {
+
+	displayNoneAllScreens()
+	document.getElementById("GameScreen").style.display='block' ;
+	
+	context = canvas.getContext("2d");
+
+	// put all settings values in theire places
+	getSettingValues();
+	// TODO implement here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	Start();
+}
 
 
 // get the keys values from the form
@@ -176,7 +182,7 @@ function randomValues(){
 	keyRight=39;
 
 
-	tmp= getRndInteger(50,90)
+	tmp= getRndInteger(50,90);
 	$("#candyAmount").val(tmp);
 	$("#candyAmount").next().val(tmp);
 
@@ -188,9 +194,9 @@ function randomValues(){
 	$("#gameLength").val(tmp);
 	$("#gameLength").next().val(tmp);
 
-	$("#color_5_Points").val(getRandomColor())
+	$("#color_5_Points").val(getRandomColor());
 	$("#color_15_Points").val(getRandomColor());
-	$("#color_25_Points").val(getRandomColor())
+	$("#color_25_Points").val(getRandomColor());
 
 }
 
@@ -552,5 +558,3 @@ function UpdatePosition() {
 		Draw();
 	}
 }
-
-

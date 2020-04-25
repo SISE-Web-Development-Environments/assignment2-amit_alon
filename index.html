@@ -2,9 +2,15 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="styleSheet1.css">
-		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="nav.css">
+
 		<script	src="https://code.jquery.com/jquery-3.5.0.js"></script>
+		
 		<script type="text/javascript" src="./app.js"></script>
+
+		<!-- jQuery Modal -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	</head>
 	<header> 
 
@@ -14,6 +20,47 @@
 
 
 	<body>
+<!-- Side navigation -->
+<div class="sidenav">
+	<a href="#" onclick="setupWelcomeScreen()">Welcome</a>
+	<a id="about" href="#ex1" rel="modal:open">About</a>
+	<a href="#"onclick="register()">Sign Up</a>
+	<a href="#"onclick="login()">Sign In</a>
+	<a href="#"onclick="Settings()">Settings</a>
+  </div>
+
+  <!-- About Modal -->
+   <div id="ex1" class="modal">
+	<h1>About</h1>
+	<p>Authors: Alon Gutman & Amit Shakarchy.</p>
+	<p>Our most dificult parts of the assignment were giving the monsters a "smart" movement, and organizing our code properly.</p>
+	<p>For this Modal Dialog's implementation, we used jQuery Modal plugin (jquerymodal.com) </p>
+	<a href="#" rel="modal:close">Close</a>
+  </div> 
+
+
+
+
+  <!-- Page content -->
+  <div class="main">
+
+
+		<!--Game screen-->
+		<div id="GameScreen" style="display: none;">
+				<div id="score" style="display: block;" >
+					<label for="lblScore">SCORE:</label>
+					<input id="lblScore" type="text" />
+				</div>
+				<div id="time"  style="display: block;" >
+					<label for="lblTime">TIME:</label>
+					<input id="lblTime" type="text" />
+				</div>
+				<div id="game">
+					<canvas id="canvas" height="600" width="600"></canvas>
+				</div>
+			</div>	
+
+
 		<!---    Welcome screen    -->
 		<div id="welcome" > 
 			<h1 style="font-family:courier;"> Welcome! </h1>
@@ -95,14 +142,14 @@
 				</div>
 			</div>
 
-<div id="settings" style="display: none;">
+<div id="settingsScreen" style="display: none;">
 	<form id="settingsForm" class="form">
 		<h2 class="title">Settings</h2>
 		   <div class="input-div one">
-
+			<button id= "randomButton" class = "randomButton"><p >Rendom values</p></button>
 			<!--keyboard controls picker-->
 			  <div class="i">
-				<h1 class="innerTitle">Chhose keyboard controls</h1>
+				<h1 class="innerTitle">Choose keyboard controls</h1>
 					  <i class="keysControl"></i>
 			  </div>
 			  <div class="key">
@@ -123,8 +170,6 @@
 				<input id="right" type="text" class="input" onkeydown="setRightKey(event)">
 			</div>			
 		   </div>
-		   <div class="input-div pass">
-
 			<!--Candy amount picker-->
 			  <div class="i"> 
 				<h1 class="innerTitle">Choose candy amount</h1>
@@ -162,32 +207,17 @@
 					<output class="range-slider__value">0</output>
 			  </div>
 		</div>
-
-		<!--Random values button:-->
-
 		<input id= "submit" type="submit" class="submit" value="start!">
 	</form>
-	<button id= "randomButton" class = "randomButton"><p >Rendom values</p></button>
 	<br>
 	<a href="index.html">Back to main page</a>
-
 </div>
 
 
-<div id="GameScreen" style="display: block;">
-	<div id="score" style="display: block;" >
-		<label for="lblScore">SCORE:</label>
-		<input id="lblScore" type="text" />
-	</div>
-	<div id="time"  style="display: none;" >
-		<label for="lblTime">TIME:</label>
-		<input id="lblTime" type="text" />
-	</div>
-	<div id="game">
-		<canvas id="canvas" height="600" width="600"></canvas>
-	</div>
-</div>
-		
+
+
+
+</div> <!--end of main page div-->
 	</body>
 
 
