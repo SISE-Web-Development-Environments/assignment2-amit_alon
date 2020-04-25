@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="styleSheet1.css">
 		<link rel="stylesheet" type="text/css" href="nav.css">
+		<link rel="stylesheet" type="text/css" href="general.css">
 
 		<script	src="https://code.jquery.com/jquery-3.5.0.js"></script>
 		
@@ -13,9 +14,14 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	</head>
 	<header> 
-
 		<!---    Insert logo & other information here    -->
-	
+		<div id="logo" class="logo">
+			<h2>Pac Pac Pacman</h2>
+			<img height="75" src="packman.JPEG" alt="packman"/>
+			<p>Authors: Alon Gutman & Amit Shakarchy</p>
+
+		</div>
+
 	</header>
 
 
@@ -23,22 +29,23 @@
 <!-- Side navigation -->
 <div class="sidenav">
 	<a href="#" onclick="setupWelcomeScreen()">Welcome</a>
-	<a id="about" href="#ex1" rel="modal:open">About</a>
+	<a id="about" href="#myModal" rel="modal:open">About</a>
 	<a href="#"onclick="register()">Sign Up</a>
 	<a href="#"onclick="login()">Sign In</a>
-	<a href="#"onclick="Settings()">Settings</a>
+	<a href="#"onclick="settings()">Settings</a>
   </div>
 
+
+
+
   <!-- About Modal -->
-   <div id="ex1" class="modal">
-	<h1>About</h1>
+   <div id="myModal" class="modal">
+	<h2>About</h2>
 	<p>Authors: Alon Gutman & Amit Shakarchy.</p>
 	<p>Our most dificult parts of the assignment were giving the monsters a "smart" movement, and organizing our code properly.</p>
 	<p>For this Modal Dialog's implementation, we used jQuery Modal plugin (jquerymodal.com) </p>
 	<a href="#" rel="modal:close">Close</a>
   </div> 
-
-
 
 
   <!-- Page content -->
@@ -64,7 +71,7 @@
 		<!---    Welcome screen    -->
 		<div id="welcome" > 
 			<h1 style="font-family:courier;"> Welcome! </h1>
-			<img src="packman.jpeg" id="imglogin" width=120>
+			<img src="monsterOrange.jpg" id="imglogin" width=120>
 			<button id="loginBtn" type="button" class="b1" > Login </button>
 			<button id="registerBtn" type="button" class="b2">Register</button>
 			
@@ -74,10 +81,10 @@
 		<!---    Login screen    -->
 		<div class="container" id="login" style="display: none;" >
 			<div class="login-content">
-				<img height="180" src="packman.JPEG" alt="packman"/>
+				<h1 class="title">Login or Sign in to play!</h1>
 			
 				<form id="loginForm" class="form">
-					<h2 class="title">Login</h2>
+					<h2 class="innerTitle">Login</h2>
 					   <div class="input-div one">
 						  <div class="i">
 								  <i class="fas fa-user"></i>
@@ -143,45 +150,47 @@
 			</div>
 
 <div id="settingsScreen" style="display: none;">
+	<div class="login-content">
+		<h1 class="title">Settings!</h1>
 	<form id="settingsForm" class="form">
-		<h2 class="title">Settings</h2>
 		   <div class="input-div one">
 			<button id= "randomButton" class = "randomButton"><p >Rendom values</p></button>
 			<!--keyboard controls picker-->
 			  <div class="i">
-				<h1 class="innerTitle">Choose keyboard controls</h1>
+				<h2 class="innerTitle">Choose keyboard controls</h2>
 					  <i class="keysControl"></i>
 			  </div>
 			  <div class="key">
-					  <h4>Up</h4>
+					  <label for="up">Up</label>
 					  <input id="up" type="text" class="input" onkeydown="setUpKey(event)" title="ddd">
 					  <p id="upVal"></p>
 			  </div>
 			  <div class="key">
-				<h4>Down</h4>
+				<label for="down">Down</label>
 				<input id="down" type="text" class="input" onkeydown="setDownKey(event)">
 			</div>
 			<div class="key">
-				<h4>Left</h4>
+				<label for="left">Left</label>
 				<input id="left" type="text" class="input" onkeydown="setLeftKey(event)">
 			</div>
 			<div class="key">
-				<h4>Right</h4>
+				<label for="right">Right</label>
 				<input id="right" type="text" class="input" onkeydown="setRightKey(event)">
 			</div>			
 		   </div>
+		   <br>
 			<!--Candy amount picker-->
 			  <div class="i"> 
-				<h1 class="innerTitle">Choose candy amount</h1>
+				<h2 class="innerTitle">Choose candy amount</h2>
 				   <i class="fas fa-lock"></i>
-				   <label for="vol">Choose number of candies (between 50 and 90):</label>
+				   <label for="vol">(between 50 and 90):</label>
 				   <input id= "candyAmount" class="range-slider__range" type="range" min="50" max="90" value="50">
 				   <output  id= "candyAmountVal" class="range-slider__value">0</output>
 			  </div>
 
 			<!--Candy colors picker-->
 			  <div class="i">
-				  <h1 class="innerTitle"> Choose candy colors</h1>
+				  <h2 class="innerTitle"> Choose candy colors</h2>
 				  <label for="color_5_Points"> 5 point (60%)</label>
 				  <input class ="CandyColor" type="color" id="color_5_Points" name="color_5_Points" value="#ff0000">
 				  <label for="color_15_Points"> 15 point (30%)</label>
@@ -191,7 +200,7 @@
 			  </div>
 
 			<!--Game length picker-->
-			  <div class="i"> 
+			  <div class="slider"> 
 				   <i class="fas fa-lock"></i>
 				   <label for="vol">Select game length (in minutes)</label>
 				   <div class="range-slider">
@@ -200,9 +209,10 @@
 			  </div>
 
 			  </div>
-			  <div class="i"> 
+			  <div class="slider"> 
 			<!--Number of monsters length picker-->
 			<div class="range-slider">
+				<label for="vol">Select number of monsters</label>
 					<input id="monstersAmount" class="range-slider__range" type="range" value="1" min="1" max="4">
 					<output class="range-slider__value">0</output>
 			  </div>
@@ -212,12 +222,16 @@
 	<br>
 	<a href="index.html">Back to main page</a>
 </div>
-
-
-
-
-
+</div>
 </div> <!--end of main page div-->
+
+
+
+<footer>
+
+<p>Ⓒ Amit Shakarchy & Alon Gutman </p>
+<p>amitshakarchy@gmail.com</p>
+</footer>
 	</body>
 
 
