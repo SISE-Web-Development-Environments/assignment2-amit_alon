@@ -8,8 +8,10 @@ var time_elapsed;
 var interval;
 var interval2;
 var lastKey;
+var candy_num;
+var eaten_candies = 0;
 var user_password_map= new Map(); 
-var num_of_monsters = 4;
+var num_of_monsters = 3;
 var pacman_position;
 var first_monster;
 var second_monster;
@@ -257,7 +259,8 @@ function Start() {
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
-	var food_remain = 50;
+	food_remain = 20;
+	candy_num = food_remain;
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -462,13 +465,33 @@ function Draw() {
 		initializeBoardAfterDeath();
 		return;
 	}
-	context.beginPath();
-	context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-	context.fillStyle = "red"; //color
-	context.fill();
+	drawMonsters("green","black",center_Monster.x,center_Monster.y);
+	// context.beginPath();
+	// context.arc(center_Monster.x, center_Monster.y, 28, 0, 1 * Math.PI,true);
+	// context.lineTo(center_Monster.x-30,center_Monster.y+35);
+	// context.lineTo(center_Monster.x-15,center_Monster.y+20);
+	// context.lineTo(center_Monster.x,center_Monster.y+35);
+	// context.lineTo(center_Monster.x+15,center_Monster.y+20);
+	// context.lineTo(center_Monster.x+30,center_Monster.y+35);
+	// context.lineTo(center_Monster.x+28 ,center_Monster.y);
+	// context.fillStyle = "green";
+	// context.fill();
+	// context.stroke();
+	// //eye
+	// context.beginPath();
+	// context.arc(center_Monster.x+8, center_Monster.y-5, 5, 0, 2 * Math.PI,true);
+	// context.fillStyle = "black";
+	// context.fill();
+	// context.stroke();
+	// //eye
+	// context.beginPath();
+	// context.arc(center_Monster.x-8, center_Monster.y-5, 5, 0, 2 * Math.PI,true);
+	// context.fillStyle = "black";
+	// context.fill();
+	// context.stroke();
 
 
-	if(starting_pistol >= 4){
+	if(num_of_monsters == 4 && starting_pistol >= 4){
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -476,10 +499,8 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("blue","black",center_Monster.x,center_Monster.y);
+
 		//third
 		center_Monster.x = third_monster[0] * 60 + 30;
 		center_Monster.y = third_monster[1] * 60 + 30;
@@ -487,10 +508,8 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("red","black",center_Monster.x,center_Monster.y);
+
 		//fourth
 		center_Monster.x = fourth_monster[0] * 60 + 30;
 		center_Monster.y =fourth_monster[1] * 60 + 30;
@@ -498,13 +517,10 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("purple","black",center_Monster.x,center_Monster.y);
 	}
 
-	else if(starting_pistol == 2){
+	else if(num_of_monsters == 2 && starting_pistol >= 2){
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -512,13 +528,11 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("blue","black",center_Monster.x,center_Monster.y);
+
 
 	}
-	else if(starting_pistol == 3){
+	else if(num_of_monsters == 3 && starting_pistol >= 3 ){
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -526,10 +540,8 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("blue","black",center_Monster.x,center_Monster.y);
+
 		//third
 		center_Monster.x = third_monster[0] * 60 + 30;
 		center_Monster.y = third_monster[1] * 60 + 30;
@@ -537,10 +549,8 @@ function Draw() {
 			initializeBoardAfterDeath();
 			return;
 		}
-		context.beginPath();
-		context.arc(center_Monster.x, center_Monster.y, 15, 0, 2 * Math.PI); // circle
-		context.fillStyle = "red"; //color
-		context.fill();
+		drawMonsters("red","black",center_Monster.x,center_Monster.y);
+
 	}
 
 }
@@ -556,8 +566,9 @@ function initializeBoardAfterDeath(){
 	score = score - 10;
 	life--;
 	if(life == 0){
-		window.alert("Game Over\n Your score is " + score);
-
+		window.alert("Loser!");
+		// TODO: 
+		//option to initialize new game 
 	}
 	else{
 		window.alert("You have been killed. " + life + " life remain");
@@ -572,7 +583,8 @@ function initializeBoardAfterDeath(){
 		if(board[row][col] != 4) {
 			if(board[row][col] == 1){
 				score++;
-
+				eaten_candies++;
+				debugger;
 			}
 			pacman_position = [row,col];
 		
@@ -642,12 +654,30 @@ function updatePositionForMonster(){
 
 }
 
-function drawMonsters(monster_index){
-	if(starting_pistol == 0){
-		//first monster on her way (need to change it according to the )
-		first_monster =[9,9];
-		
-	}
+function drawMonsters(color,eyeColor,row,col){
+	context.beginPath();
+	context.arc(row, col, 28, 0, 1 * Math.PI,true);
+	context.lineTo(row-30,col+35);
+	context.lineTo(row-15,col+20);
+	context.lineTo(row,col+35);
+	context.lineTo(row+15,col+20);
+	context.lineTo(row+30,col+35);
+	context.lineTo(row+28 ,col);
+	context.fillStyle = color;
+	context.fill();
+	context.stroke();
+	//eye
+	context.beginPath();
+	context.arc(row+8, col-5, 5, 0, 2 * Math.PI,true);
+	context.fillStyle = eyeColor;
+	context.fill();
+	context.stroke();
+	//eye
+	context.beginPath();
+	context.arc(row-8, col-5, 5, 0, 2 * Math.PI,true);
+	context.fillStyle = eyeColor;
+	context.fill();
+	context.stroke();
 }
 
 
@@ -904,17 +934,26 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score++;
+		eaten_candies++;
 	}
 	board[shape.i][shape.j] = 2;
 	pacman_position = [shape.i,shape.j];
-	var currentTime = new Date();
-	time_elapsed = (currentTime - start_time) / 1000;
-	if (score >= 20 && time_elapsed <= 10) {
-		pac_color = "green";
-	}
-	if (score == 50) {
+	// var currentTime = new Date();
+	// time_elapsed = (currentTime - start_time) / 1000;
+	// if (score >= 20 && time_elapsed <= 10) {
+	// 	pac_color = "green";
+	// }
+	debugger;
+	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
-		window.alert("Game completed");
+		if(score >= 100){
+			window.alert("Winner!!!");
+
+		}
+		else{
+			window.alert("You are better than " + score + " points!" );
+
+		}
 	} else {
 		Draw();
 	}
