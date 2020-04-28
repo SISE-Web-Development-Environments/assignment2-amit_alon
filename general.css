@@ -60,14 +60,16 @@
   }
 
   footer{
-    position: fixed;
+    position: static;
+    background-color: #98d4f3;
+    color: white;
+    text-align: center;
     left: 0;
     bottom: 0;
     width: 100%;
     height: 10%;
-    background-color: #98d4f3;
-    color: white;
-    text-align: center;
+    flex: 0 0 50px;/*or just height:50px;*/
+    margin-top: auto;
   }
 
   .form{
@@ -76,11 +78,22 @@
     overflow: hidden;
     position: relative;
     margin: 0 auto;
-    width: 500px;
+
     padding-top: 40px;
     padding-left: 20px;
   }
 
+  #loginForm{
+    width: 410px;
+  }
+
+  #registration_form{
+    width: 450px;
+  }
+
+  #settingsForm{
+    width: 850px;
+  }
   #myModal{
     background-color: rgb(248, 192, 107);
   }
@@ -89,10 +102,11 @@
     display: block;
 
   }   
-
-  .key, .slider{
+.loginInput,.sliderAndValue,#gameLength, #monstersAmount, #candyAmount,.colorBox,.regInput,.key, .slider{
     display: inline-block;
+   
   }
+
 
   input, textarea{
     width: 200px;	
@@ -114,6 +128,15 @@
     padding-left: 20px;
     
   }
+  .CandyColor{
+    padding-bottom: 2px;
+    background-color: white;
+    color: white;
+    height: 50px;
+    cursor: pointer;
+      padding-left: 10%;
+      padding-right: 10%;
+  }
   input:focus, textarea:focus{
     border: solid 3px #77bde0;	
   }
@@ -124,19 +147,22 @@
     overflow: auto;
     padding-left: 20px;
   }
+
+
   #randomButton, input[type="submit"]{
     background-color: #F90;
-	color: white;
-	height: 50px;
-	cursor: pointer;
-	margin-top: 30px;
-	font-size: 1.29em;
-	font-family: 'Sniglet', cursive;
-	-webkit-transition: background-color 0.5s;
-	-moz-transition: background-color 0.5s;
-	-o-transition: background-color 0.5s;
-    transition: background-color 0.5s;
-    padding-left: 20px;
+    color: white;
+    height: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 1.29em;
+    font-family: 'Sniglet', cursive;
+    -webkit-transition: background-color 0.5s;
+    -moz-transition: background-color 0.5s;
+    -o-transition: background-color 0.5s;
+      transition: background-color 0.5s;
+      padding-left: 10%;
+      padding-right: 10%;
   }
   #randomButton, input[type="submit"]:hover{
     background-color: #e58f0e;
@@ -154,3 +180,42 @@
     margin-top: 20px;
     padding-left: 20px;
   }
+
+  .welcomeButton{
+    background-color: #F90;
+    color: white;
+    height: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 1.29em;
+    font-family: 'Sniglet', cursive;
+    -webkit-transition: background-color 0.5s;
+    -moz-transition: background-color 0.5s;
+    -o-transition: background-color 0.5s;
+      transition: background-color 0.5s;
+      padding-left: 10%;
+      padding-right: 10%;
+  }
+  #welcomeButton{
+
+    padding-top: 10%;
+    margin-bottom: 80%;
+    margin-left: 30%;
+  }
+
+  #backToMainPage{
+    text-align: center;
+    margin-left: 45%;
+
+  }
+
+  .form-box{
+
+margin: 6% auto;
+padding: 5px;
+
+  }
+
+  .color_25,.color_15,.color_5{
+   height:0.5in;width:1in;background-color:black;
+   }

@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
 }
-.form-box{
+/* .form-box{
 width: 247px;
 height: 312px;
 position: absolute;
@@ -11,7 +11,7 @@ left: 10px;
 margin: 6% auto;
 background: rgb(253, 230, 230);
 padding: 5px;
-}
+} */
 .input-group{
   top: 12px;
   position: absolute;
@@ -30,7 +30,7 @@ padding: 5px;
   
 
 }
-.input-field{
+/* .input-field{
   width: 100%;
   padding: 10px 0;
   margin: 5px 0;
@@ -40,7 +40,7 @@ padding: 5px;
   border-bottom: 1px solid #999;
   outline: none;
   background: transparent;
-}
+} */
 .button-box{
 width: 140px;
 margin: 25px auto;
