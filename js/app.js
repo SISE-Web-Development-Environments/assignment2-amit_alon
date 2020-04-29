@@ -10,11 +10,10 @@ var interval2;
 var lastKey;
 var candy_num;
 var eaten_candies = 0;
-var user_password_map = new Map();
 
 var username;
 
-var num_of_monsters = 3;
+var num_of_monsters;
 var pacman_position;
 var first_monster;
 var second_monster;

@@ -71,8 +71,8 @@ function randomValues() {
 
 
     tmp = getRndInteger(50, 90);
-    $("#candyAmount").val(tmp);
-    $("#candyAmount").next().val(tmp);
+    $("#candy_num").val(tmp);
+    $("#candy_num").next().val(tmp);
 
     tmp = getRndInteger(1, 4);
     $("#monstersAmount").val(tmp);
