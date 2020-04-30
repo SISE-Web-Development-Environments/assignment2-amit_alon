@@ -10,9 +10,6 @@ var interval2;
 var lastKey;
 var candy_num;
 var eaten_candies = 0;
-// var count_of_5points_candies;
-// var count_of_15points_candies;
-// var count_of_25points_candies;
 var username;
 
 var num_of_monsters;
@@ -22,6 +19,8 @@ var second_monster;
 var third_monster;
 var fourth_monster;
 var random_choice;
+var moving_fifty_points = [9,0];
+var not_collected_star_yet = true;
 var counter_monster_update = 0;
 var starting_pistol = 0;
 var life = 5;
@@ -42,6 +41,12 @@ sessionStorage;
 
 
 window.addEventListener("load", setupWelcomeScreen, false);
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
 
 // called when the app first launches
 function setupWelcomeScreen() {
@@ -195,8 +200,13 @@ function GetKeyPressed() {
 
 function Draw() {
 	canvas.width = canvas.width; //clean board
+	lblLifeCount.value = life.toString();
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
+	if(time_elapsed/60 > gameLength){
+		clearInterval(interval);
+		window.alert("Your time is over!");
+	}
 	lblUsername.value= username;
 	displaySettings();
 
@@ -329,29 +339,6 @@ function Draw() {
 		return;
 	}
 	drawMonsters("green", "black", center_Monster.x, center_Monster.y);
-	// context.beginPath();
-	// context.arc(center_Monster.x, center_Monster.y, 28, 0, 1 * Math.PI,true);
-	// context.lineTo(center_Monster.x-30,center_Monster.y+35);
-	// context.lineTo(center_Monster.x-15,center_Monster.y+20);
-	// context.lineTo(center_Monster.x,center_Monster.y+35);
-	// context.lineTo(center_Monster.x+15,center_Monster.y+20);
-	// context.lineTo(center_Monster.x+30,center_Monster.y+35);
-	// context.lineTo(center_Monster.x+28 ,center_Monster.y);
-	// context.fillStyle = "green";
-	// context.fill();
-	// context.stroke();
-	// //eye
-	// context.beginPath();
-	// context.arc(center_Monster.x+8, center_Monster.y-5, 5, 0, 2 * Math.PI,true);
-	// context.fillStyle = "black";
-	// context.fill();
-	// context.stroke();
-	// //eye
-	// context.beginPath();
-	// context.arc(center_Monster.x-8, center_Monster.y-5, 5, 0, 2 * Math.PI,true);
-	// context.fillStyle = "black";
-	// context.fill();
-	// context.stroke();
 
 
 	if (num_of_monsters == 4 && starting_pistol >= 4) {
@@ -415,10 +402,48 @@ function Draw() {
 		drawMonsters("red", "black", center_Monster.x, center_Monster.y);
 
 	}
+	if(not_collected_star_yet)
+		drawStar(moving_fifty_points[0]*60 +30, moving_fifty_points[1]*60 +30, 5, 20, 10);
 
 }
+function drawStar(cx, cy, spikes, outerRadius, innerRadius){
+	if(board[moving_fifty_points[0]][moving_fifty_points[1]] != 4){
+		if(checkIfPacmanIsThere(moving_fifty_points[0],moving_fifty_points[1])){
+			debugger;
+			score += 50;
+			not_collected_star_yet = false;
+		} 
+		else{
+			var rot = Math.PI / 2 * 3;
+			var x = cx;
+			var y = cy;
+			var step = Math.PI / spikes;
 
+			context.strokeSyle = "#000";
+			context.beginPath();
+			context.moveTo(cx, cy - outerRadius)
+			for (i = 0; i < spikes; i++) {
+				x = cx + Math.cos(rot) * outerRadius;
+				y = cy + Math.sin(rot) * outerRadius;
+				context.lineTo(x, y)
+				rot += step
 
+				x = cx + Math.cos(rot) * innerRadius;
+				y = cy + Math.sin(rot) * innerRadius;
+				context.lineTo(x, y)
+				rot += step
+			}
+			context.lineTo(cx, cy - outerRadius)
+			context.closePath();
+			context.lineWidth=5;
+			context.strokeStyle='blue';
+			context.stroke();
+			context.fillStyle='lightcyan';
+			context.fill();
+		}
+	
+	}
+}
 function checkIfPacmanIsThere(x, y) {
 	if (x == pacman_position[0] && y == pacman_position[1])
 		return true;
@@ -444,11 +469,8 @@ function initializeBoardAfterDeath() {
 		var row = Math.floor(Math.random() * 9);
 		var col = Math.floor(Math.random() * 9);
 		if (board[row][col] != 4) {
-			if (board[row][col] == 1) {
-				score++;
-				eaten_candies++;
-				//	debugger;
-			}
+			score+= board[row][col];
+			eaten_candies++;
 			pacman_position = [row, col];
 
 			board[row][col] = 2;
@@ -514,6 +536,28 @@ function updatePositionForMonster() {
 	}
 
 	starting_pistol++;
+	var choose_position_for_star = false;
+
+	while(!choose_position_for_star){
+		var random_move = Math.floor(Math.random() * 2) + 1;
+		if(random_move == 1){
+			random_move = Math.floor(Math.random() * 2) + 1;
+			if(random_move == 1 && moving_fifty_points[0] < 9) 
+				moving_fifty_points[0] ++;
+				else if(moving_fifty_points[0] > 0)
+						moving_fifty_points[0] --;
+	
+		}
+		else{
+			random_move = Math.floor(Math.random() * 2) + 1;
+			if(random_move == 1 && moving_fifty_points[1] < 9) 
+				moving_fifty_points[1] ++;
+				else if(moving_fifty_points[1] > 0)
+						moving_fifty_points[1] --;
+		}
+		if(board[moving_fifty_points[0]][moving_fifty_points[1]] != 4) choose_position_for_star = true;
+	}
+	
 
 }
 
@@ -748,13 +792,6 @@ function chaseAfterPacman(monster_position) {
 	return [monster_row, monster_col];
 }
 
-// function assignNumberOfCandies(){
-// 	count_of_5points_candies = Math.floor(candy_num*0.6);
-// 	count_of_15points_candies = Math.floor(candy_num*0.3);
-// 	count_of_25points_candies = Math.floor(candy_num*0.1);
-// 	var total_remainder = candy_num - (color_5_Points + count_of_15points_candies + count_of_25points_candies);
-// 	count_of_5points_candies += total_remainder;
-// }
 
 function which_is_equal(mrow, mcol, prow, pcol) {
 	if (mrow == prow) {
@@ -815,14 +852,10 @@ function UpdatePosition() {
 	}
 	board[shape.i][shape.j] = 2;
 	pacman_position = [shape.i, shape.j];
-	// var currentTime = new Date();
-	// time_elapsed = (currentTime - start_time) / 1000;
-	// if (score >= 20 && time_elapsed <= 10) {
-	// 	pac_color = "green";
-	// }
-	//debugger;
+	var currentTime = new Date();
+	time_elapsed = (currentTime - start_time) / 1000;
+
 	if (eaten_candies == candy_num) {
-		debugger;
 		window.clearInterval(interval);
 		if (score >= 100) {
 			window.alert("Winner!!!");
