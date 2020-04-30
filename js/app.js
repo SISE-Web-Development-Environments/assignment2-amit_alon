@@ -335,10 +335,10 @@ function Draw() {
 	center_Monster.x = first_monster[0] * 60 + 30;
 	center_Monster.y = first_monster[1] * 60 + 30;
 	if (checkIfPacmanIsThere(first_monster[0], first_monster[1])) {
-		initializeBoardAfterDeath();
+		initializeBoardAfterDeath(1);
 		return;
 	}
-	drawMonsters("green", "black", center_Monster.x, center_Monster.y);
+	drawMonsters("red", "black", center_Monster.x, center_Monster.y);
 
 
 	if (num_of_monsters == 4 && starting_pistol >= 4) {
@@ -346,7 +346,7 @@ function Draw() {
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(second_monster[0], second_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
 		drawMonsters("blue", "black", center_Monster.x, center_Monster.y);
@@ -355,16 +355,16 @@ function Draw() {
 		center_Monster.x = third_monster[0] * 60 + 30;
 		center_Monster.y = third_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(third_monster[0], third_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
-		drawMonsters("red", "black", center_Monster.x, center_Monster.y);
+		drawMonsters("green", "black", center_Monster.x, center_Monster.y);
 
 		//fourth
 		center_Monster.x = fourth_monster[0] * 60 + 30;
 		center_Monster.y = fourth_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(fourth_monster[0], fourth_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
 		drawMonsters("purple", "black", center_Monster.x, center_Monster.y);
@@ -375,7 +375,7 @@ function Draw() {
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(second_monster[0], second_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
 		drawMonsters("blue", "black", center_Monster.x, center_Monster.y);
@@ -387,7 +387,7 @@ function Draw() {
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(second_monster[0], second_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
 		drawMonsters("blue", "black", center_Monster.x, center_Monster.y);
@@ -396,10 +396,10 @@ function Draw() {
 		center_Monster.x = third_monster[0] * 60 + 30;
 		center_Monster.y = third_monster[1] * 60 + 30;
 		if (checkIfPacmanIsThere(third_monster[0], third_monster[1])) {
-			initializeBoardAfterDeath();
+			initializeBoardAfterDeath(2);
 			return;
 		}
-		drawMonsters("red", "black", center_Monster.x, center_Monster.y);
+		drawMonsters("green", "black", center_Monster.x, center_Monster.y);
 
 	}
 	if(not_collected_star_yet)
@@ -449,11 +449,19 @@ function checkIfPacmanIsThere(x, y) {
 		return true;
 	return false;
 }
-function initializeBoardAfterDeath() {
+function initializeBoardAfterDeath(index) {
 	clearInterval(interval);
-	score = score - 10;
-	life--;
-	if (life == 0) {
+	if(index == 1){
+		score = score - 20;
+		life-=2;
+
+	}
+	else{
+		score = score - 10;
+		life--;
+
+	}
+	if (life <= 0) {
 		window.alert("Loser!");
 		// TODO: 
 		//option to initialize new game 
@@ -573,18 +581,39 @@ function drawMonsters(color, eyeColor, row, col) {
 	context.fillStyle = color;
 	context.fill();
 	context.stroke();
-	//eye
+	//right eye
 	context.beginPath();
 	context.arc(row + 8, col - 5, 5, 0, 2 * Math.PI, true);
 	context.fillStyle = eyeColor;
 	context.fill();
 	context.stroke();
-	//eye
+	//left eye
 	context.beginPath();
 	context.arc(row - 8, col - 5, 5, 0, 2 * Math.PI, true);
 	context.fillStyle = eyeColor;
 	context.fill();
 	context.stroke();
+	if(color == "red"){
+		//draw mouth
+		context.beginPath();
+		context.moveTo(row-8, col+16);
+		context.bezierCurveTo(row-5, col+6, row+5, col +6, row+5, col+16);
+		context.closePath();
+		context.fillStyle = "black";
+		context.fill();
+		context.stroke();
+		// context.stroke();
+		// context.beginPath();
+		// context.moveTo(140, 59);
+		// context.lineTo(140,80);
+		// context.lineTo(170,80);
+		// context.lineTo(170,60);
+		// context.stroke();
+		// context.beginPath();
+		// context.moveTo(155, 58);
+		// context.lineTo(155,80);
+		// context.stroke();
+	}
 }
 
 
