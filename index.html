@@ -2,6 +2,8 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width">
+
 	<link rel="stylesheet" type="text/css" href="css\nav.css">
 	<link rel="stylesheet" type="text/css" href="css\general.css">
 	<link rel="stylesheet" type="text/css" href="css\game.css">
@@ -34,9 +36,8 @@
 		<a id="about" href="#myModal" rel="modal:open">About</a>
 		<a href="#" onclick="register()">Sign Up</a>
 		<a href="#" onclick="login()">Sign In</a>
-		<a href="#" onclick="settings()">Settings</a>
+		<a href="#" onclick="canGoToSettings()">Settings</a>
 	</div>
-
 
 	<!-- About Modal -->
 	<div id="myModal" class="modal">
@@ -48,6 +49,23 @@
 		<a href="#" rel="modal:close">Close</a>
 	</div>
 
+	<div id="notLoggedIn" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+		  <p>Please log in or sign up first.</p>
+		</div>
+	</div>
+
+	<div id="GameOverModal" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+		  <p>Game Over!</p>
+		  <button id="gameOverSettings" onclick="settings()">Go to settings</button>
+		  <button id="gameOverSettings" onclick="startOver()">Start Over</button>
+		</div>
+	</div>
+
+
 
 	<!-- Page content -->
 	<div class="main">
@@ -56,25 +74,25 @@
 			<div id="gameInfo">
 				<div id="usernameBox">
 					<label for="lblUsername">Username:</label>
-					<input id="lblUsername" type="text" />
+					<input id="lblUsername" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 				<div id="score">
 					<label for="lblScore">SCORE:</label>
-					<input id="lblScore" type="text" />
+					<input id="lblScore" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 
 				<div id="life">
 					<label for="lblLifeCount">Life:</label>
-					<input id="lblLifeCount" type="text" />
+					<input id="lblLifeCount" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 				<div id="time">
 					<label for="lblTime">TIME:</label>
-					<input id="lblTime" type="text" />
+					<input id="lblTime" type="text"style="width: 8em; margin-left: 4%;" />
 				</div>
 
 			</div>
 			<div id="game">
-				<canvas id="canvas" height="600" width="600"></canvas>
+				<canvas id="canvas" height="400" width="400"></canvas>
 			</div>
 
 			<div id="settingsView">

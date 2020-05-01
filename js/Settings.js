@@ -1,3 +1,12 @@
+function canGoToSettings(){
+if(loggedIn==true){
+    settings()
+}
+    else{
+        $('#notLoggedIn').modal('show');
+    }
+}
+
 function settings() {
 
     // Change screens
@@ -86,8 +95,8 @@ function randomValues() {
 
 
     tmp = getRndInteger(50, 90);
-    $("#candy_num").val(tmp);
-    $("#candy_num").next().val(tmp);
+    $("#candyAmount").val(tmp);
+    $("#candyAmount").next().val(tmp);
 
     tmp = getRndInteger(1, 4);
     $("#monstersAmount").val(tmp);
@@ -153,4 +162,14 @@ function getSettingValues() {
     color_15_Points = $("#color_15_Points").val();
     color_25_Points = $("#color_25_Points").val();
     gameLength = $("#gameLength").val();
+}
+
+function displayNoneAllScreens() {
+	document.getElementById("login").style.display = 'none';
+	document.getElementById("register").style.display = 'none';
+	document.getElementById("welcome").style.display = 'none';
+	document.getElementById("GameScreen").style.display = 'none';
+	document.getElementById("settingsScreen").style.display = 'none';
+
+
 }

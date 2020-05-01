@@ -9,6 +9,8 @@ function register() {
    
    // save username for display
    username= $("#form_uname").val();
+
+   
     }
     
     
@@ -139,7 +141,8 @@ function register() {
                  alert("Registration Successfull");
                  var password = $("#form_password").val();
                  sessionStorage.setItem(username,password);
-                  return true;
+                 loggedIn=true;
+                  settings();
  
                  }
              else alert("This user name is not available");
