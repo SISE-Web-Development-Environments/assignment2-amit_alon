@@ -1,12 +1,17 @@
 
   @import url(https://fonts.googleapis.com/css?family=Sniglet|Raleway:900);
 
+.main{
+  padding: 2px;
 
+}
   body, html{
     height: 100%;
     padding: 0;
     margin: 0;
     font-family: 'Sniglet', cursive;
+    min-height: 100%;
+
   }
   h1{
     font-weight: normal;
@@ -37,7 +42,7 @@
   }
   
   #imglogin{
-    background-image: url('monsterOrange.jpg.jpeg');
+    background-image: url('monsterOrange.jpeg');
     width: 100px;
     height: 104px;
     margin-left: 25%;
@@ -49,28 +54,34 @@
   
  
   header{
-    height: 160px;
+    height: 130px;
     background: url('http://www.geertjanhendriks.nl/codepen/form/golf.png') repeat-x bottom;
   }
 
   .logo{
+    width: 20%;
+    height: 20%;
     margin-left: 80%;
     text-align: center;
     position: absolute;	
   }
 
-  footer{
-    position: static;
-    background-color: #98d4f3;
-    color: white;
-    text-align: center;
-    left: 0;
+  #pacmanTitleImage{
+    padding-top: 0px;
+    padding-left: 30px;
+  }  
+  
+  footer {
     bottom: 0;
-    width: 100%;
-    height: 10%;
-    flex: 0 0 50px;/*or just height:50px;*/
-    margin-top: auto;
-  }
+    background-color: #98d4f3;
+    text-align: center;
+    color: white;
+    height: 5em;
+    left: 0;
+    font-size: small;
+    position: relative; 
+    width:100%;
+}
 
   .form{
     height: 80%;	
@@ -81,6 +92,9 @@
 
     padding-top: 40px;
     padding-left: 20px;
+  }
+  #login{
+    padding-bottom: 15%;
   }
 
   #loginForm{
@@ -94,6 +108,10 @@
   #settingsForm{
     width: 850px;
   }
+  #settingsScreen{
+    padding-bottom: 15%;
+
+  }
   #myModal{
     background-color: rgb(248, 192, 107);
   }
@@ -106,7 +124,6 @@
     display: inline-block;
    
   }
-
 
   input, textarea{
     width: 200px;	
@@ -181,6 +198,8 @@
     padding-left: 20px;
   }
 
+
+
   .welcomeButton{
     background-color: #F90;
     color: white;
@@ -215,7 +234,3 @@ margin: 6% auto;
 padding: 5px;
 
   }
-
-  .color_25,.color_15,.color_5{
-   height:0.5in;width:1in;background-color:black;
-   }

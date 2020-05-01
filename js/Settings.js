@@ -37,19 +37,34 @@ function setRightKey(event) {
 function displaySettings(){
     
     //fix!
-    $("#UpkeyView").val(String.fromCharCode(keyUP));
-    $("#DwonkeyView").val(String.fromCharCode(keyDown));
+    if(keyUP==38){
+        $("#UpkeyView").val("Arrow up");
+    }
+    else {
+        $("#UpkeyView").val(String.fromCharCode(keyUP)); 
+    }
+   if(keyDown==40){
+    $("#DownkeyView").val("Arrow down");
+
+   }else{
+           $("#DownkeyView").val("Arrow left");
+   }
+   if(keyLeft==37){
     $("#LeftkeyView").val(String.fromCharCode(keyLeft));
-    $("#RightkeyView").val(String.fromCharCode(keyRight));
+   }else{
+           $("#LeftkeyView").val(String.fromCharCode(keyLeft));
+   }
+   if(keyRight==39){
+    $("#RightkeyView").val("Arrow right");
+   }else{
+           $("#RightkeyView").val(String.fromCharCode(keyRight));
+   }
     $("#length").val(gameLength);
     $("#monstersNum").val(num_of_monsters);
     $("#candyNum").val(candy_num);
     $(".color_5").css("background-color",color_5_Points);
     $(".color_15").css("background-color",color_15_Points);
     $(".color_25").css("background-color",color_25_Points);
-
- 
-
 }
 
 

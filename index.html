@@ -2,9 +2,10 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="styleSheet1.css">
-	<link rel="stylesheet" type="text/css" href="nav.css">
-	<link rel="stylesheet" type="text/css" href="general.css">
+	<link rel="stylesheet" type="text/css" href="css\nav.css">
+	<link rel="stylesheet" type="text/css" href="css\general.css">
+	<link rel="stylesheet" type="text/css" href="css\game.css">
+
 
 	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
@@ -20,10 +21,7 @@
 <header>
 	<!---    Insert logo & other information here    -->
 	<div id="logo" class="logo">
-		<h2>Pac Pac Pacman</h2>
-		<img height="75" src="Images\packman.jpeg" alt="packman" />
-		<p>Authors: Alon Gutman & Amit Shakarchy</p>
-
+		<img id="pacmanTitleImage" height="90" src="Images\packman.png" />
 	</div>
 
 </header>
@@ -40,8 +38,6 @@
 	</div>
 
 
-
-
 	<!-- About Modal -->
 	<div id="myModal" class="modal">
 		<h2>About</h2>
@@ -56,90 +52,86 @@
 	<!-- Page content -->
 	<div class="main">
 
-
 		<!--Game screen-->
 		<div id="GameScreen" style="display: none;">
-			<div id="score" style="display: block;">
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
-			</div>
-			
-			<div id="life" style="display: block;">
-				<label for="lblLifeCount">Life:</label>
-				<input id="lblLifeCount" type="text" />
-			</div>
-			<div id="time" style="display: block;">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-			</div>
-			<div id="usernameBox" style="display: block;">
-				<label for="lblUsername">Username:</label>
-				<input id="lblUsername" type="text" />
+			<div id="gameInfo">
+				<div id="usernameBox">
+					<label for="lblUsername">Username:</label>
+					<input id="lblUsername" type="text" />
+				</div>
+				<div id="score">
+					<label for="lblScore">SCORE:</label>
+					<input id="lblScore" type="text" />
+				</div>
+
+				<div id="life">
+					<label for="lblLifeCount">Life:</label>
+					<input id="lblLifeCount" type="text" />
+				</div>
+				<div id="time">
+					<label for="lblTime">TIME:</label>
+					<input id="lblTime" type="text" />
+				</div>
+
 			</div>
 			<div id="game">
 				<canvas id="canvas" height="600" width="600"></canvas>
 			</div>
 
-		<div id="settingsView">
-
-			<h4 class="innerTitle">Keyboard controls</h4>
-			<div class="view">
-				<label for="up">Up:</label>
-				<output id="UpkeyView" >0</output>
-			</div>
-			<div class="view">
-				<label for="down">Down</label>
-				<output id="DownkeyView" style="float:left" ></output>
-			</div>
-			<div class="view">
-				<label for="left">Left</label>
-				<output id="LeftkeyView"style="float:left" ></output>
-			</div>
-			<div class="view">
-				<label for="right">Right</label>
-				<output id="RightkeyView" style="float:left"></output>
-			</div>
-			<div class="view">
-				<label for="right">Game length in minutes</label>
-				<output id="length" style="float:left"></output>
-			</div>
-			<div class="view">
-				<label for="right">Number of monsters</label>
-				<output id="monstersNum" style="float:left"></output>
-			</div>
-			<div class="view">
-				<label for="right">Number of candies</label>
-				<output id="candyNum" style="float:left"></output>
-			</div>
-
-			<div class="view">
-				<label for="right">Candy colors</label>
-				<label for="right">Number of candies</label>
-
-				<label for="right">5 points</label>
-				<div class="color_5">
-					<P id="color_5" ></P>
+			<div id="settingsView">
+				<h3 class="innerTitle">My Settings:</h3>
+				<h4 class="innerTitle">Key Controls:</h4>
+				<div class="view">
+					<!-- <label class="keyView" for="up">Up:</label> -->
+					Up: <output id="UpkeyView">0</output>,
+				</div>
+				<div class="view">
+					<!-- <label class="keyView" for="down">Down:</label> -->
+					Down: <output id="DownkeyView"></output>,
+				</div>
+				<div class="view">
+					Left: <output id="LeftkeyView"></output>,
+				</div>
+				<div class="view">
+					Right: <output id="RightkeyView"></output>
 				</div>
 
-				<label for="right">15 points</label>
-				<div class="color_15">
-					<P id="color_15" ></P>
+				<div class="view">
+					<h4 class="innerTitle">Candy Colors:</h4>
+					<div class="view">
+						<div class="color_5">
+							<P id="colorTxt">5 points</P>
+						</div>
+					</div>
+					<div class="view">
+						<div class="color_15">
+							<P id="colorTxt">15 points</P>
+						</div>
+					</div>
+					<div class="view">
+						<div class="color_25">
+							<P id="colorTxt">25 points</P>
+						</div>
+					</div>
+					<div class="clearfix"></div>
 				</div>
-				<label for="right">25 points</label>
-				<div class="color_25">
-					<P id="color_25" ></P>
+				<div class="view">
+					<h4 class="innerTitle">Other Settings:</h4>
+					<br>
+					Game length in minutes: <output id="length"></output>
+					<br>
+					Number of monsters: <output id="monstersNum"></output>
+					<br>
+					Number of candies: <output id="candyNum"></output>
 				</div>
 			</div>
-		</div>
-
+			<div class="clearfix"></div>
 		</div>
 		<!--end of gameScreen-->
-
-
 		<!---    Welcome screen    -->
 		<div id="welcome" style="display: none;">
 			<h1 style="font-family:courier;"> Welcome! </h1>
-			<img src="Images\monsterOrange.jpeg" id="imglogin" width=120>
+			<img src="Images\monsterOrange.JPEG" id="imglogin" width=120>
 
 			<div id="welcomeButton">
 				<button id="loginBtn" type="button" class="welcomeButton"> Login </button>
@@ -288,8 +280,6 @@
 		</div>
 	</div>
 	<!--end of main page div-->
-
-
 	<footer>
 		<p>Ⓒ Amit Shakarchy & Alon Gutman </p>
 		<p>amitshakarchy@gmail.com</p>

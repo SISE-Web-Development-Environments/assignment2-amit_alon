@@ -1,0 +1,60 @@
+#GameScreen{
+    padding-bottom: 2%;
+}
+  .CandyColor{
+    padding-bottom: 2px;
+    background-color: white;
+    color: white;
+    height: 50px;
+    cursor: pointer;
+      padding-left: 10%;
+      padding-right: 10%;
+  }
+
+
+
+  .color_25,.color_15,.color_5{
+   height:0.5in;
+   width:1in;
+   background-color:black;
+   }
+   #colorTxt{ 
+       padding-top: 10px;
+       text-align: center;
+      
+   }
+   #gameInfo{
+    width: 15%;
+    float: left;
+}
+
+    #game{
+    padding-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    width:40%;
+    margin-left:1%;
+    float: left;
+
+}
+    #settingsView{
+    padding: 10px;
+    width:30%;
+    margin-left:4%;
+    float: left;
+}
+
+    .clearfix{
+    clear:both
+} 
+.view{
+    float: left;
+    padding: 5px;  
+    
+}
+
+  .keyView{
+    float: left;
+    padding: 5px;  
+       
+  }
