@@ -69,6 +69,7 @@ function setupWelcomeScreen() {
 }
 
 function startOver() {
+	endGame();
 	life=5;
 	eaten_candies = 0;
 	setUpGame();
@@ -98,11 +99,19 @@ let scoreTmp=score;
 
 function gameOverLoser(){
 	endGame();
-	$("#GameOverLoserModal").modal("show");
+	displayNoneAllScreens();
+    document.getElementById("gameOverLoser").style.display = 'block';
+
+	//$("#GameOverLoserModal").modal("show");
 	
 }
 
+function gameOverWinner(){
+	endGame();
+	displayNoneAllScreens();
+	document.getElementById("gameOverWinner").style.display = 'block';
 
+}
 
 function setUpGame() {
 
@@ -199,7 +208,10 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 200);
+	if(gameIsOn==true){
+		window.clearInterval(interval);
+		interval = setInterval(UpdatePosition, 200);
+	}
 	//interval2 = setInterval(monstersMoves,700);
 
 }
@@ -489,28 +501,24 @@ function checkIfPacmanIsThere(x, y) {
 	return false;
 }
 function initializeBoardAfterDeath(index) {
-	clearInterval(interval);
+//	clearInterval(interval);
 	var currTime = new Date();
 	if (index == 1) {
 		score = score - 20;
 		life -= 2;
-
 	}
 	else {
 		score = score - 10;
 		life--;
-
 	}
 	if (life <= 0) {
 		gameOverLoser();
 		return;
-
 	}
 	else {
 		window.alert("You have been killed. " + life + " life remain");
 	}
 	time_to_reduce += ( currTime - (new Date()) );
-
 	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
@@ -528,8 +536,9 @@ function initializeBoardAfterDeath(index) {
 			foundFreeCell = true;
 		}
 	}
-	if(gameIsOn)
-		interval = setInterval(UpdatePosition, 200);
+	// if(gameIsOn==true){
+	//  			interval = setInterval(UpdatePosition, 200);		
+	// }
 
 }
 
@@ -927,7 +936,7 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
-		gameOver();
+		gameOverWinner();
 		return;
 	} else {
 		Draw();

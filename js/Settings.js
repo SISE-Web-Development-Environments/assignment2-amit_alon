@@ -1,3 +1,44 @@
+function SettingsFromModal(){
+
+    $("#settingsButtomModal").click(function(){
+        $("#myModal").modal("hide");
+      });
+
+   $("myModal").modal("hide");
+   $(".modal").modal("hide");
+   $("#myModal").modal("hide");
+
+
+   $("modal").modal("close");
+   $(".modal").modal("close");
+   $("#myModal").modal("close");
+   settings();
+
+
+
+}
+
+function canGoToLogin(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    login();
+}
+
+function canGoToRegister(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    register();
+}
+
+function canGoToSetupWelcomeScreen(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    setupWelcomeScreen();
+}
+
 function canGoToSettings() {
     if (loggedIn == true) {
         if (gameIsOn = true) {
@@ -173,6 +214,8 @@ function displayNoneAllScreens() {
     document.getElementById("welcome").style.display = 'none';
     document.getElementById("GameScreen").style.display = 'none';
     document.getElementById("settingsScreen").style.display = 'none';
+    document.getElementById("gameOverLoser").style.display = 'none';
+    document.getElementById("gameOverWinner").style.display = 'none';
 
 
 }
