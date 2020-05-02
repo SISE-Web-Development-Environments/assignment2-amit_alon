@@ -11,18 +11,19 @@ var lastKey;
 var candy_num;
 var eaten_candies = 0;
 var username;
-
+var loggedIn = false;
+var monster_update_interval = 4;
 var num_of_monsters;
 var pacman_position;
-var first_monster;
-var second_monster;
-var third_monster;
-var fourth_monster;
+var first_monster = [9,9];
+var second_monster = [0,0];
+var third_monster = [9,0];
+var fourth_monster = [0,9];
 var random_choice;
-var moving_fifty_points = [9,0];
+var moving_fifty_points = [6,6];
 var not_collected_star_yet = true;
+var not_collected_clock_yet = true;
 var counter_monster_update = 0;
-var starting_pistol = 0;
 var life = 5;
 
 // settings vars:
@@ -133,11 +134,31 @@ function Start() {
 						board[i][j] = 25;
 
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					shape.i = i;
-					shape.j = j;
-					pacman_remain--;
-					board[i][j] = 2;
-				} else {
+					//do not put pacman in corner at first position
+					if(isInCorner(i,j)){
+						if(j == 9){
+							shape.i = i;
+							shape.j = j - 3;
+							pacman_remain--;
+							board[i][j- 3] = 2;
+						}
+							
+						else{
+							shape.i = i;
+							shape.j = j + 3;
+							pacman_remain--;
+							board[i][j + 3] = 2;
+						} 
+					}
+					else{
+						shape.i = i;
+						shape.j = j;
+						pacman_remain--;
+						board[i][j] = 2;
+					}
+					
+				} 
+				else {
 					board[i][j] = 0;
 				}
 				cnt--;
@@ -182,6 +203,13 @@ function findRandomEmptyCell(board) {
 	return [i, j];
 }
 
+
+function isInCorner(i,j){
+	if(i == 9 || i == 0){
+		if(j == 0 || j == 9) return true;
+	}
+	return false;
+}
 function GetKeyPressed() {
 	if (keysDown[keyUP]) {
 		return 1;
@@ -328,8 +356,10 @@ function Draw() {
 
 
 	var center_Monster = new Object();
-	if (counter_monster_update % 4 == 0)
+	if (counter_monster_update % monster_update_interval == 0){
 		updatePositionForMonster();
+		counter_monster_update = 0;
+	}
 	counter_monster_update++;
 	//first monster
 	center_Monster.x = first_monster[0] * 60 + 30;
@@ -341,7 +371,7 @@ function Draw() {
 	drawMonsters("red", "black", center_Monster.x, center_Monster.y);
 
 
-	if (num_of_monsters == 4 && starting_pistol >= 4) {
+	if (num_of_monsters == 4) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -370,7 +400,7 @@ function Draw() {
 		drawMonsters("purple", "black", center_Monster.x, center_Monster.y);
 	}
 
-	else if (num_of_monsters == 2 && starting_pistol >= 2) {
+	else if (num_of_monsters == 2) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -382,7 +412,7 @@ function Draw() {
 
 
 	}
-	else if (num_of_monsters == 3 && starting_pistol >= 3) {
+	else if (num_of_monsters == 3) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -404,12 +434,15 @@ function Draw() {
 	}
 	if(not_collected_star_yet)
 		drawStar(moving_fifty_points[0]*60 +30, moving_fifty_points[1]*60 +30, 5, 20, 10);
+	if(not_collected_clock_yet){
+		drawSlowMotionClock();	
+
+	}
 
 }
 function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 	if(board[moving_fifty_points[0]][moving_fifty_points[1]] != 4){
 		if(checkIfPacmanIsThere(moving_fifty_points[0],moving_fifty_points[1])){
-			debugger;
 			score += 50;
 			not_collected_star_yet = false;
 		} 
@@ -444,6 +477,17 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 	
 	}
 }
+
+function drawSlowMotionClock(){
+	if(checkIfPacmanIsThere(4,9)){
+		not_collected_clock_yet = false;
+		//CHANGE INTERVAL OF MONSTER FOR SOME TIME;
+		monster_update_interval = 16;
+		setTimeout(function() { window.monster_update_interval = 4; }, 15000);
+
+
+	} 
+}
 function checkIfPacmanIsThere(x, y) {
 	if (x == pacman_position[0] && y == pacman_position[1])
 		return true;
@@ -470,7 +514,6 @@ function initializeBoardAfterDeath(index) {
 		window.alert("You have been killed. " + life + " life remain");
 	}
 
-	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
 	while (!foundFreeCell) {
@@ -487,42 +530,17 @@ function initializeBoardAfterDeath(index) {
 			foundFreeCell = true;
 		}
 	}
+	first_monster = [9,9];
+	second_monster = [0,0];
+	third_monster = [9,0];
+	fourth_monster = [0,9];
 
 	interval = setInterval(UpdatePosition, 200);
 
 }
 
 function updatePositionForMonster() {
-	//still not all of the monsters is out
-	if (starting_pistol < num_of_monsters) {
-		if (starting_pistol == 0) {
-			//first monster on her way 
-			first_monster = [9, 9];
 
-		}
-		else if (starting_pistol == 1) {
-			//second monster on her way
-			second_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-
-		}
-		else if (starting_pistol == 2) {
-			third_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-			second_monster = chaseAfterPacman(second_monster);
-
-
-		}
-		else if (starting_pistol == 3) {
-			fourth_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-			second_monster = chaseAfterPacman(second_monster);
-			third_monster = chaseAfterPacman(third_monster);
-		}
-
-	}
-	else {
-		//all monsters already got out
 		if (num_of_monsters == 4) {
 			first_monster = chaseAfterPacman(first_monster);
 			second_monster = chaseAfterPacman(second_monster);
@@ -541,9 +559,8 @@ function updatePositionForMonster() {
 		else {
 			first_monster = chaseAfterPacman(first_monster);
 		}
-	}
+	
 
-	starting_pistol++;
 	var choose_position_for_star = false;
 
 	while(!choose_position_for_star){
@@ -602,17 +619,6 @@ function drawMonsters(color, eyeColor, row, col) {
 		context.fillStyle = "black";
 		context.fill();
 		context.stroke();
-		// context.stroke();
-		// context.beginPath();
-		// context.moveTo(140, 59);
-		// context.lineTo(140,80);
-		// context.lineTo(170,80);
-		// context.lineTo(170,60);
-		// context.stroke();
-		// context.beginPath();
-		// context.moveTo(155, 58);
-		// context.lineTo(155,80);
-		// context.stroke();
 	}
 }
 
@@ -886,6 +892,7 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
+		debugger;
 		if (score >= 100) {
 			window.alert("Winner!!!");
 
