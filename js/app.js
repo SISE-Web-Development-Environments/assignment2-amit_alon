@@ -25,6 +25,8 @@ var not_collected_star_yet = true;
 var not_collected_clock_yet = true;
 var counter_monster_update = 0;
 var life = 5;
+var time_to_reduce ;
+
 
 // settings vars:
 var keyUP = 38;
@@ -108,6 +110,7 @@ function Start() {
 	
 	var pacman_remain = 1;
 	start_time = new Date();
+	time_to_reduce = 0;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -495,6 +498,7 @@ function checkIfPacmanIsThere(x, y) {
 }
 function initializeBoardAfterDeath(index) {
 	clearInterval(interval);
+	var currTime = new Date();
 	if(index == 1){
 		score = score - 20;
 		life-=2;
@@ -507,12 +511,16 @@ function initializeBoardAfterDeath(index) {
 	}
 	if (life <= 0) {
 		window.alert("Loser!");
+
 		// TODO: 
 		//option to initialize new game 
 	}
 	else {
 		window.alert("You have been killed. " + life + " life remain");
+
 	}
+
+	time_to_reduce += ( currTime - (new Date()) );
 
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
@@ -534,7 +542,7 @@ function initializeBoardAfterDeath(index) {
 	second_monster = [0,0];
 	third_monster = [9,0];
 	fourth_monster = [0,9];
-
+	
 	interval = setInterval(UpdatePosition, 200);
 
 }
@@ -888,7 +896,7 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	pacman_position = [shape.i, shape.j];
 	var currentTime = new Date();
-	time_elapsed = (currentTime - start_time) / 1000;
+	time_elapsed = (currentTime - start_time + time_to_reduce) / 1000;
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
