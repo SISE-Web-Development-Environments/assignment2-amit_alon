@@ -2,6 +2,8 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width">
+
 	<link rel="stylesheet" type="text/css" href="css\nav.css">
 	<link rel="stylesheet" type="text/css" href="css\general.css">
 	<link rel="stylesheet" type="text/css" href="css\game.css">
@@ -30,11 +32,11 @@
 <body>
 	<!-- Side navigation -->
 	<div class="sidenav">
-		<a href="#" onclick="setupWelcomeScreen()">Welcome</a>
+		<a href="#" onclick="canGoToSetupWelcomeScreen()">Welcome</a>
 		<a id="about" href="#myModal" rel="modal:open">About</a>
-		<a href="#" onclick="register()">Sign Up</a>
-		<a href="#" onclick="login()">Sign In</a>
-		<a href="#" onclick="settings()">Settings</a>
+		<a href="#" onclick="canGoToRegister()">Sign Up</a>
+		<a href="#" onclick="canGoToLogin()">Sign In</a>
+		<a href="#" onclick="canGoToSettings()">Settings</a>
 	</div>
 
 
@@ -42,40 +44,89 @@
 	<div id="myModal" class="modal">
 		<h2>About</h2>
 		<p>Authors: Alon Gutman & Amit Shakarchy.</p>
-		<p>Our most dificult parts of the assignment were giving the monsters a "smart" movement, and organizing our
+		<p>Our most difficult parts of the assignment were giving the monsters a "smart" movement, and organizing our
 			code properly.</p>
 		<p>For this Modal Dialog's implementation, we used jQuery Modal plugin (jquerymodal.com) </p>
 		<a href="#" rel="modal:close">Close</a>
 	</div>
 
+	
+
+
+	
+	<div id="notLoggedIn" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+		  <p>Please log in or sign up first.</p>
+		</div>
+	</div>
+
+	<div id="GameOverModal" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+		  <p>Game Over!</p>
+		  <button id="gameOverSettings" onclick="SettingsFromModal()">Go to settings</button>
+		  <button id="gameOverSettings" onclick="startOver()">Start Over</button>
+		</div>
+	</div>
+
+		<!---    GameOver screen    -->
+		<div id="gameOverLoser" style="display: none;">
+			<h1 style="font-family:courier;"> Game Over! </h1>
+			<img src="Images\monsterOrange.JPEG" id="imglogin" width=120>
+			<div id="gameOverLoserBox">
+				<h2>Loser!!!!!!!!</h2>
+				<div id="gameOverButton">
+					<button id="gameOverBtn" type="button" class="gameOverButton" onclick="startOver()"> Start Over </button>
+					<button type="button" class="gameOverButton"onclick="canGoToSettings()">Go to settings</button>
+				</div>
+			</div>
+		</div>
+
+		<!---    GameOver screen    -->
+		<div id="gameOverWinner" style="display: none;">
+			<h1 style="font-family:courier;"> Game Over! </h1>
+			<img src="Images\monsterOrange.JPEG" id="imglogin" width=120>
+			<div id="gameOverWinnerBox">
+				<h2>Winner !!!!!!!!!!!</h2>
+				<div id="gameOverB">
+					<button  type="button" class="gameOverButton" onclick="startOver()"> Start Over </button>
+					<button type="button" class="gameOverButton"onclick="canGoToSettings()">Go to settings</button>
+				</div>
+			</div>
+		</div>
+
 
 	<!-- Page content -->
 	<div class="main">
-
 		<!--Game screen-->
 		<div id="GameScreen" style="display: none;">
 			<div id="gameInfo">
 				<div id="usernameBox">
 					<label for="lblUsername">Username:</label>
-					<input id="lblUsername" type="text" />
+					<input id="lblUsername" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 				<div id="score">
 					<label for="lblScore">SCORE:</label>
-					<input id="lblScore" type="text" />
+					<input id="lblScore" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 
 				<div id="life">
 					<label for="lblLifeCount">Life:</label>
-					<input id="lblLifeCount" type="text" />
+					<input id="lblLifeCount" type="text" style="width: 8em; margin-left: 4%;"/>
 				</div>
 				<div id="time">
 					<label for="lblTime">TIME:</label>
-					<input id="lblTime" type="text" />
+					<input id="lblTime" type="text"style="width: 8em; margin-left: 4%;" />
 				</div>
-
+				<div id="New Game">
+					<button id="newGame"  type="button" class="gameOverButton" onclick="startOver()">New Game</button>
+				</div>
 			</div>
+
+
 			<div id="game">
-				<canvas id="canvas" height="600" width="600"></canvas>
+				<canvas id="canvas" height="400" width="400"></canvas>
 			</div>
 
 			<div id="settingsView">

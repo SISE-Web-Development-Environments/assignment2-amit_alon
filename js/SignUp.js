@@ -1,7 +1,10 @@
 function register() {
-	document.getElementById("register").style.display='block' ;
-	document.getElementById("login").style.display='none' ;
-	document.getElementById("welcome").style.display='none' ;
+   displayNoneAllScreens();
+   document.getElementById("register").style.display='block' ;
+
+	// document.getElementById("register").style.display='block' ;
+	// document.getElementById("login").style.display='none' ;
+	// document.getElementById("welcome").style.display='none' ;
 	$("#registration_form").submit(function(e){
 		e.preventDefault();
 		//validateRegister();
@@ -9,6 +12,8 @@ function register() {
    
    // save username for display
    username= $("#form_uname").val();
+
+   
     }
     
     
@@ -139,7 +144,8 @@ function register() {
                  alert("Registration Successfull");
                  var password = $("#form_password").val();
                  sessionStorage.setItem(username,password);
-                  return true;
+                 loggedIn=true;
+                  settings();
  
                  }
              else alert("This user name is not available");
@@ -152,3 +158,9 @@ function register() {
  
         });
      });
+
+     function freeUserName(s) {
+      if (sessionStorage.getItem(s) !== null)
+         return false;
+      return true;
+   }

@@ -31,6 +31,7 @@ function validateLogin() {
 				username=usernameCheck;
 
 				//now need to move to the settings before game window
+				loggedIn=true;
 				settings();
 			}
 			else {

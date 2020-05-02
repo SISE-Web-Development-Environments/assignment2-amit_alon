@@ -1,7 +1,60 @@
+function SettingsFromModal(){
+
+    $("#settingsButtomModal").click(function(){
+        $("#myModal").modal("hide");
+      });
+
+   $("myModal").modal("hide");
+   $(".modal").modal("hide");
+   $("#myModal").modal("hide");
+
+
+   $("modal").modal("close");
+   $(".modal").modal("close");
+   $("#myModal").modal("close");
+   settings();
+
+
+
+}
+
+function canGoToLogin(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    login();
+}
+
+function canGoToRegister(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    register();
+}
+
+function canGoToSetupWelcomeScreen(){
+    if (gameIsOn = true) {
+        endGame();
+    }
+    setupWelcomeScreen();
+}
+
+function canGoToSettings() {
+    if (loggedIn == true) {
+        if (gameIsOn = true) {
+            endGame();
+        }
+        settings();
+    }
+    else {
+        $('#notLoggedIn').modal('show');
+    }
+}
+
 function settings() {
 
     // Change screens
-    displayNoneAllScreens()
+    displayNoneAllScreens();
     document.getElementById("settingsScreen").style.display = 'block';
 
     // build reange slider
@@ -34,37 +87,37 @@ function setRightKey(event) {
     keyRight = event.which;
 }
 
-function displaySettings(){
-    
+function displaySettings() {
+
     //fix!
-    if(keyUP==38){
+    if (keyUP == 38) {
         $("#UpkeyView").val("Arrow up");
     }
     else {
-        $("#UpkeyView").val(String.fromCharCode(keyUP)); 
+        $("#UpkeyView").val(String.fromCharCode(keyUP));
     }
-   if(keyDown==40){
-    $("#DownkeyView").val("Arrow down");
+    if (keyDown == 40) {
+        $("#DownkeyView").val("Arrow down");
 
-   }else{
-           $("#DownkeyView").val("Arrow left");
-   }
-   if(keyLeft==37){
-    $("#LeftkeyView").val(String.fromCharCode(keyLeft));
-   }else{
-           $("#LeftkeyView").val(String.fromCharCode(keyLeft));
-   }
-   if(keyRight==39){
-    $("#RightkeyView").val("Arrow right");
-   }else{
-           $("#RightkeyView").val(String.fromCharCode(keyRight));
-   }
+    } else {
+        $("#DownkeyView").val("Arrow left");
+    }
+    if (keyLeft == 37) {
+        $("#LeftkeyView").val(String.fromCharCode(keyLeft));
+    } else {
+        $("#LeftkeyView").val(String.fromCharCode(keyLeft));
+    }
+    if (keyRight == 39) {
+        $("#RightkeyView").val("Arrow right");
+    } else {
+        $("#RightkeyView").val(String.fromCharCode(keyRight));
+    }
     $("#length").val(gameLength);
     $("#monstersNum").val(num_of_monsters);
     $("#candyNum").val(candy_num);
-    $(".color_5").css("background-color",color_5_Points);
-    $(".color_15").css("background-color",color_15_Points);
-    $(".color_25").css("background-color",color_25_Points);
+    $(".color_5").css("background-color", color_5_Points);
+    $(".color_15").css("background-color", color_15_Points);
+    $(".color_25").css("background-color", color_25_Points);
 }
 
 
@@ -86,8 +139,8 @@ function randomValues() {
 
 
     tmp = getRndInteger(50, 90);
-    $("#candy_num").val(tmp);
-    $("#candy_num").next().val(tmp);
+    $("#candyAmount").val(tmp);
+    $("#candyAmount").next().val(tmp);
 
     tmp = getRndInteger(1, 4);
     $("#monstersAmount").val(tmp);
@@ -153,4 +206,16 @@ function getSettingValues() {
     color_15_Points = $("#color_15_Points").val();
     color_25_Points = $("#color_25_Points").val();
     gameLength = $("#gameLength").val();
+}
+
+function displayNoneAllScreens() {
+    document.getElementById("login").style.display = 'none';
+    document.getElementById("register").style.display = 'none';
+    document.getElementById("welcome").style.display = 'none';
+    document.getElementById("GameScreen").style.display = 'none';
+    document.getElementById("settingsScreen").style.display = 'none';
+    document.getElementById("gameOverLoser").style.display = 'none';
+    document.getElementById("gameOverWinner").style.display = 'none';
+
+
 }

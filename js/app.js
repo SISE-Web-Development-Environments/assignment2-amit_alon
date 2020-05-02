@@ -12,7 +12,12 @@ var candy_num;
 var eaten_candies = 0;
 var username;
 var loggedIn = false;
+<<<<<<< HEAD
 var monster_update_interval = 4;
+=======
+var gameIsOn=false;
+var monster_update_interval= 4;
+>>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 var num_of_monsters;
 var pacman_position;
 var first_monster = [9,9];
@@ -20,13 +25,21 @@ var second_monster = [0,0];
 var third_monster = [9,0];
 var fourth_monster = [0,9];
 var random_choice;
+<<<<<<< HEAD
 var moving_fifty_points = [6,6];
+=======
+var moving_fifty_points = [9, 0];
+>>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 var not_collected_star_yet = true;
 var not_collected_clock_yet = true;
 var counter_monster_update = 0;
 var life = 5;
+<<<<<<< HEAD
 var time_to_reduce ;
 
+=======
+var time_to_reduce;
+>>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 
 // settings vars:
 var keyUP = 38;
@@ -43,12 +56,13 @@ sessionStorage;
 
 
 
+
 window.addEventListener("load", setupWelcomeScreen, false);
-window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
+window.addEventListener("keydown", function (e) {
+	// space and arrow keys
+	if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+		e.preventDefault();
+	}
 }, false);
 
 // called when the app first launches
@@ -67,17 +81,48 @@ function setupWelcomeScreen() {
 	sessionStorage.setItem("p", "p");
 }
 
-
-function displayNoneAllScreens() {
-	document.getElementById("login").style.display = 'none';
-	document.getElementById("register").style.display = 'none';
-	document.getElementById("welcome").style.display = 'none';
-	document.getElementById("GameScreen").style.display = 'none';
-	document.getElementById("settingsScreen").style.display = 'none';
-
-
+function startOver() {
+	endGame();
+	life=5;
+	eaten_candies = 0;
+	setUpGame();
 }
 
+function endGame() {
+	gameIsOn=false;
+	window.clearInterval(interval);
+	clearInterval(interval);
+	time_elapsed = 0;
+	eaten_candies = 0;
+	score = 0;
+}
+
+function gameOverTimeOut() {
+let scoreTmp=score;
+	endGame();
+	if (scoreTmp < 100) {
+		window.alert("You are better than " + scoreTmp + " points!");
+		gameOverLoser();
+	} else {
+		gameOverWinner();
+	}
+}
+
+function gameOverLoser(){
+	endGame();
+	displayNoneAllScreens();
+    document.getElementById("gameOverLoser").style.display = 'block';
+
+	//$("#GameOverLoserModal").modal("show");
+	
+}
+
+function gameOverWinner(){
+	endGame();
+	displayNoneAllScreens();
+	document.getElementById("gameOverWinner").style.display = 'block';
+
+}
 
 function setUpGame() {
 
@@ -101,13 +146,17 @@ function freeUserName(s) {
 
 
 function Start() {
+	gameIsOn=true;
 	board = new Array();
+	life=5;
+	time_elapsed = 0;
+	eaten_candies = 0;
 	score = 0;
 	//assignNumberOfCandies();
 	pac_color = "yellow";
 	var cnt = 100;
 	food_remain = candy_num;
-	
+	time_to_reduce = 0;
 	var pacman_remain = 1;
 	start_time = new Date();
 	time_to_reduce = 0;
@@ -121,7 +170,7 @@ function Start() {
 				(i == 3 && j == 5) ||
 				(i == 6 && j == 1) ||
 				(i == 6 && j == 2) ||
-				(i ==8 && j == 7)
+				(i == 8 && j == 7)
 			) {
 				board[i][j] = 4;
 			} else {
@@ -169,13 +218,13 @@ function Start() {
 		}
 	}
 
-	
+
 	while (food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 5;
 		food_remain--;
 	}
-	
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -191,7 +240,10 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 200);
+	if(gameIsOn==true){
+		window.clearInterval(interval);
+		interval = setInterval(UpdatePosition, 200);
+	}
 	//interval2 = setInterval(monstersMoves,700);
 
 }
@@ -231,14 +283,18 @@ function GetKeyPressed() {
 
 function Draw() {
 	canvas.width = canvas.width; //clean board
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	lblLifeCount.value = life.toString();
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	if(time_elapsed/60 > gameLength){
+	if (time_elapsed / 60 > gameLength) {
 		clearInterval(interval);
-		window.alert("Your time is over!");
+		gameOverTimeOut();
+		return;
+
 	}
-	lblUsername.value= username;
+	lblUsername.value = username;
 	displaySettings();
 
 	for (var i = 0; i < 10; i++) {
@@ -448,8 +504,8 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 		if(checkIfPacmanIsThere(moving_fifty_points[0],moving_fifty_points[1])){
 			score += 50;
 			not_collected_star_yet = false;
-		} 
-		else{
+		}
+		else {
 			var rot = Math.PI / 2 * 3;
 			var x = cx;
 			var y = cy;
@@ -471,14 +527,14 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 			}
 			context.lineTo(cx, cy - outerRadius)
 			context.closePath();
-			context.lineWidth=5;
-			context.strokeStyle='blue';
+			context.lineWidth = 5;
+			context.strokeStyle = 'blue';
 			context.stroke();
-			context.fillStyle='lightcyan';
+			context.fillStyle = 'lightcyan';
 			context.fill();
 			context.strokeStyle = 'tranaparent';
 		}
-	
+
 	}
 }
 
@@ -503,38 +559,33 @@ function checkIfPacmanIsThere(x, y) {
 	return false;
 }
 function initializeBoardAfterDeath(index) {
-	clearInterval(interval);
+//	clearInterval(interval);
 	var currTime = new Date();
-	if(index == 1){
+	if (index == 1) {
 		score = score - 20;
-		life-=2;
-
+		life -= 2;
 	}
-	else{
+	else {
 		score = score - 10;
 		life--;
-
 	}
 	if (life <= 0) {
-		window.alert("Loser!");
-
-		// TODO: 
-		//option to initialize new game 
+		gameOverLoser();
+		return;
 	}
 	else {
 		window.alert("You have been killed. " + life + " life remain");
 
 	}
-
 	time_to_reduce += ( currTime - (new Date()) );
-
+	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
 	while (!foundFreeCell) {
 		var row = Math.floor(Math.random() * 9);
 		var col = Math.floor(Math.random() * 9);
 		if (board[row][col] != 4) {
-			score+= board[row][col];
+			score += board[row][col];
 			eaten_candies++;
 			pacman_position = [row, col];
 
@@ -549,7 +600,7 @@ function initializeBoardAfterDeath(index) {
 	third_monster = [9,0];
 	fourth_monster = [0,9];
 	
-	interval = setInterval(UpdatePosition, 200);
+	//interval = setInterval(UpdatePosition, 200);
 
 }
 
@@ -577,26 +628,26 @@ function updatePositionForMonster() {
 
 	var choose_position_for_star = false;
 
-	while(!choose_position_for_star){
+	while (!choose_position_for_star) {
 		var random_move = Math.floor(Math.random() * 2) + 1;
-		if(random_move == 1){
+		if (random_move == 1) {
 			random_move = Math.floor(Math.random() * 2) + 1;
-			if(random_move == 1 && moving_fifty_points[0] < 9) 
-				moving_fifty_points[0] ++;
-				else if(moving_fifty_points[0] > 0)
-						moving_fifty_points[0] --;
-	
+			if (random_move == 1 && moving_fifty_points[0] < 9)
+				moving_fifty_points[0]++;
+			else if (moving_fifty_points[0] > 0)
+				moving_fifty_points[0]--;
+
 		}
-		else{
+		else {
 			random_move = Math.floor(Math.random() * 2) + 1;
-			if(random_move == 1 && moving_fifty_points[1] < 9) 
-				moving_fifty_points[1] ++;
-				else if(moving_fifty_points[1] > 0)
-						moving_fifty_points[1] --;
+			if (random_move == 1 && moving_fifty_points[1] < 9)
+				moving_fifty_points[1]++;
+			else if (moving_fifty_points[1] > 0)
+				moving_fifty_points[1]--;
 		}
-		if(board[moving_fifty_points[0]][moving_fifty_points[1]] != 4) choose_position_for_star = true;
+		if (board[moving_fifty_points[0]][moving_fifty_points[1]] != 4) choose_position_for_star = true;
 	}
-	
+
 
 }
 
@@ -624,11 +675,11 @@ function drawMonsters(color, eyeColor, row, col) {
 	context.fillStyle = eyeColor;
 	context.fill();
 	context.stroke();
-	if(color == "red"){
+	if (color == "red") {
 		//draw mouth
 		context.beginPath();
-		context.moveTo(row-8, col+16);
-		context.bezierCurveTo(row-5, col+6, row+5, col +6, row+5, col+16);
+		context.moveTo(row - 8, col + 16);
+		context.bezierCurveTo(row - 5, col + 6, row + 5, col + 6, row + 5, col + 16);
 		context.closePath();
 		context.fillStyle = "black";
 		context.fill();
@@ -888,15 +939,15 @@ function UpdatePosition() {
 		}
 	}
 	if (board[shape.i][shape.j] == 5) {
-		score+=5;
+		score += 5;
 		eaten_candies++;
 	}
 	else if (board[shape.i][shape.j] == 15) {
-		score+=15;
+		score += 15;
 		eaten_candies++;
 	}
 	else if (board[shape.i][shape.j] == 25) {
-		score+=25;
+		score += 25;
 		eaten_candies++;
 	}
 	board[shape.i][shape.j] = 2;
@@ -906,6 +957,7 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
+<<<<<<< HEAD
 		debugger;
 		if (score >= 100) {
 			window.alert("Winner!!!");
@@ -915,6 +967,10 @@ function UpdatePosition() {
 			window.alert("You are better than " + score + " points!");
 
 		}
+=======
+		gameOverWinner();
+		return;
+>>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 	} else {
 		Draw();
 	}
