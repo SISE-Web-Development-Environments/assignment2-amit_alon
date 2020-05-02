@@ -26,6 +26,7 @@ var not_collected_star_yet = true;
 var counter_monster_update = 0;
 var starting_pistol = 0;
 var life = 5;
+var time_to_reduce;
 
 // settings vars:
 var keyUP = 38;
@@ -135,7 +136,7 @@ function Start() {
 	pac_color = "yellow";
 	var cnt = 100;
 	food_remain = candy_num;
-
+	time_to_reduce = 0;
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -489,6 +490,7 @@ function checkIfPacmanIsThere(x, y) {
 }
 function initializeBoardAfterDeath(index) {
 	clearInterval(interval);
+	var currTime = new Date();
 	if (index == 1) {
 		score = score - 20;
 		life -= 2;
@@ -507,6 +509,7 @@ function initializeBoardAfterDeath(index) {
 	else {
 		window.alert("You have been killed. " + life + " life remain");
 	}
+	time_to_reduce += ( currTime - (new Date()) );
 
 	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
@@ -920,7 +923,7 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	pacman_position = [shape.i, shape.j];
 	var currentTime = new Date();
-	time_elapsed = (currentTime - start_time) / 1000;
+	time_elapsed = (currentTime - start_time + time_to_reduce) / 1000;
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
