@@ -155,3 +155,9 @@ function register() {
  
         });
      });
+
+     function freeUserName(s) {
+      if (sessionStorage.getItem(s) !== null)
+         return false;
+      return true;
+   }

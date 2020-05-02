@@ -12,6 +12,7 @@ var candy_num;
 var eaten_candies = 0;
 var username;
 var loggedIn = false;
+var gameIsOn=false;
 
 var num_of_monsters;
 var pacman_position;
@@ -66,22 +67,41 @@ function setupWelcomeScreen() {
 	sessionStorage.setItem("p", "p");
 }
 
+function startOver() {
+	life=5;
+	eaten_candies = 0;
+	setUpGame();
+}
 
-function gameOver() {
+function endGame() {
+	gameIsOn=false;
+	window.clearInterval(interval);
+	clearInterval(interval);
+	time_elapsed = 0;
+	eaten_candies = 0;
+	score = 0;
+}
 
-	if (score < 100) {
-		window.alert("You are better than " + score + " points!");
+function gameOverTimeOut() {
+let scoreTmp=score;
+	endGame();
+	if (scoreTmp < 100) {
+		window.alert("You are better than " + scoreTmp + " points!");
 
 	} else {
 		window.alert("Winner!!!");
 	}
-	
+
 	$("#GameOverModal").modal("show");
 }
 
-function startOver(){
-	//TODO
+function gameOverLoser(){
+	endGame();
+	$("#GameOverLoserModal").modal("show");
+	
 }
+
+
 
 function setUpGame() {
 
@@ -105,7 +125,11 @@ function freeUserName(s) {
 
 
 function Start() {
+	gameIsOn=true;
 	board = new Array();
+	life=5;
+	time_elapsed = 0;
+	eaten_candies = 0;
 	score = 0;
 	//assignNumberOfCandies();
 	pac_color = "yellow";
@@ -214,9 +238,9 @@ function Draw() {
 	lblTime.value = time_elapsed;
 	if (time_elapsed / 60 > gameLength) {
 		clearInterval(interval);
-		gameOver();
+		gameOverTimeOut();
 		return;
-		
+
 	}
 	lblUsername.value = username;
 	displaySettings();
@@ -417,6 +441,9 @@ function Draw() {
 		drawStar(moving_fifty_points[0] * 60 + 30, moving_fifty_points[1] * 60 + 30, 5, 20, 10);
 
 }
+
+
+
 function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
 	if (board[moving_fifty_points[0]][moving_fifty_points[1]] != 4) {
 		if (checkIfPacmanIsThere(moving_fifty_points[0], moving_fifty_points[1])) {
@@ -473,10 +500,9 @@ function initializeBoardAfterDeath(index) {
 
 	}
 	if (life <= 0) {
-		window.alert("Loser!");
-		gameOver();
+		gameOverLoser();
 		return;
-				
+
 	}
 	else {
 		window.alert("You have been killed. " + life + " life remain");
@@ -898,7 +924,7 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
-		gameOver(); 
+		gameOver();
 		return;
 	} else {
 		Draw();
