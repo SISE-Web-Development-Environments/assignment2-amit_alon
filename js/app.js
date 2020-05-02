@@ -437,9 +437,9 @@ function Draw() {
 	}
 	if(not_collected_star_yet)
 		drawStar(moving_fifty_points[0]*60 +30, moving_fifty_points[1]*60 +30, 5, 20, 10);
+		
 	if(not_collected_clock_yet){
 		drawSlowMotionClock();	
-
 	}
 
 }
@@ -455,7 +455,7 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 			var y = cy;
 			var step = Math.PI / spikes;
 
-			context.strokeSyle = "#000";
+			context.strokeStyle = "#000";
 			context.beginPath();
 			context.moveTo(cx, cy - outerRadius)
 			for (i = 0; i < spikes; i++) {
@@ -476,6 +476,7 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius){
 			context.stroke();
 			context.fillStyle='lightcyan';
 			context.fill();
+			context.strokeStyle = 'tranaparent';
 		}
 	
 	}
@@ -487,8 +488,13 @@ function drawSlowMotionClock(){
 		//CHANGE INTERVAL OF MONSTER FOR SOME TIME;
 		monster_update_interval = 16;
 		setTimeout(function() { window.monster_update_interval = 4; }, 15000);
-
-
+	}
+	else{
+		// draw clock
+		context.beginPath();
+		context.strokeStyle = "000";
+		context.arc(60*4 +30, 60*9 +30, 30, 0, 2 * Math.PI);
+		context.stroke();
 	} 
 }
 function checkIfPacmanIsThere(x, y) {
