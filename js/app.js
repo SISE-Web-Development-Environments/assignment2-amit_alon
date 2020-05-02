@@ -12,12 +12,8 @@ var candy_num;
 var eaten_candies = 0;
 var username;
 var loggedIn = false;
-<<<<<<< HEAD
-var monster_update_interval = 4;
-=======
 var gameIsOn=false;
 var monster_update_interval= 4;
->>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 var num_of_monsters;
 var pacman_position;
 var first_monster = [9,9];
@@ -25,21 +21,13 @@ var second_monster = [0,0];
 var third_monster = [9,0];
 var fourth_monster = [0,9];
 var random_choice;
-<<<<<<< HEAD
 var moving_fifty_points = [6,6];
-=======
-var moving_fifty_points = [9, 0];
->>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 var not_collected_star_yet = true;
 var not_collected_clock_yet = true;
 var counter_monster_update = 0;
 var life = 5;
-<<<<<<< HEAD
 var time_to_reduce ;
 
-=======
-var time_to_reduce;
->>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 
 // settings vars:
 var keyUP = 38;
@@ -957,20 +945,8 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
-<<<<<<< HEAD
-		debugger;
-		if (score >= 100) {
-			window.alert("Winner!!!");
-
-		}
-		else {
-			window.alert("You are better than " + score + " points!");
-
-		}
-=======
 		gameOverWinner();
 		return;
->>>>>>> 5e6613d20d9865e04a8c424b170fb65f8dfdb517
 	} else {
 		Draw();
 	}
