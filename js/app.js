@@ -13,18 +13,18 @@ var eaten_candies = 0;
 var username;
 var loggedIn = false;
 var gameIsOn=false;
-
+var monster_update_interval= 4;
 var num_of_monsters;
 var pacman_position;
-var first_monster;
-var second_monster;
-var third_monster;
-var fourth_monster;
+var first_monster = [9,9];
+var second_monster = [0,0];
+var third_monster = [9,0];
+var fourth_monster = [0,9];
 var random_choice;
 var moving_fifty_points = [9, 0];
 var not_collected_star_yet = true;
+var not_collected_clock_yet = true;
 var counter_monster_update = 0;
-var starting_pistol = 0;
 var life = 5;
 var time_to_reduce;
 
@@ -69,6 +69,7 @@ function setupWelcomeScreen() {
 }
 
 function startOver() {
+	endGame();
 	life=5;
 	eaten_candies = 0;
 	setUpGame();
@@ -88,21 +89,27 @@ let scoreTmp=score;
 	endGame();
 	if (scoreTmp < 100) {
 		window.alert("You are better than " + scoreTmp + " points!");
-
+		gameOverLoser();
 	} else {
-		window.alert("Winner!!!");
+		gameOverWinner();
 	}
-
-	$("#GameOverModal").modal("show");
 }
 
 function gameOverLoser(){
 	endGame();
-	$("#GameOverLoserModal").modal("show");
+	displayNoneAllScreens();
+    document.getElementById("gameOverLoser").style.display = 'block';
+
+	//$("#GameOverLoserModal").modal("show");
 	
 }
 
+function gameOverWinner(){
+	endGame();
+	displayNoneAllScreens();
+	document.getElementById("gameOverWinner").style.display = 'block';
 
+}
 
 function setUpGame() {
 
@@ -139,6 +146,7 @@ function Start() {
 	time_to_reduce = 0;
 	var pacman_remain = 1;
 	start_time = new Date();
+	time_to_reduce = 0;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -165,11 +173,31 @@ function Start() {
 						board[i][j] = 25;
 
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					shape.i = i;
-					shape.j = j;
-					pacman_remain--;
-					board[i][j] = 2;
-				} else {
+					//do not put pacman in corner at first position
+					if(isInCorner(i,j)){
+						if(j == 9){
+							shape.i = i;
+							shape.j = j - 3;
+							pacman_remain--;
+							board[i][j- 3] = 2;
+						}
+							
+						else{
+							shape.i = i;
+							shape.j = j + 3;
+							pacman_remain--;
+							board[i][j + 3] = 2;
+						} 
+					}
+					else{
+						shape.i = i;
+						shape.j = j;
+						pacman_remain--;
+						board[i][j] = 2;
+					}
+					
+				} 
+				else {
 					board[i][j] = 0;
 				}
 				cnt--;
@@ -199,7 +227,10 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 200);
+	if(gameIsOn==true){
+		window.clearInterval(interval);
+		interval = setInterval(UpdatePosition, 200);
+	}
 	//interval2 = setInterval(monstersMoves,700);
 
 }
@@ -214,6 +245,13 @@ function findRandomEmptyCell(board) {
 	return [i, j];
 }
 
+
+function isInCorner(i,j){
+	if(i == 9 || i == 0){
+		if(j == 0 || j == 9) return true;
+	}
+	return false;
+}
 function GetKeyPressed() {
 	if (keysDown[keyUP]) {
 		return 1;
@@ -364,8 +402,10 @@ function Draw() {
 
 
 	var center_Monster = new Object();
-	if (counter_monster_update % 4 == 0)
+	if (counter_monster_update % monster_update_interval == 0){
 		updatePositionForMonster();
+		counter_monster_update = 0;
+	}
 	counter_monster_update++;
 	//first monster
 	center_Monster.x = first_monster[0] * 60 + 30;
@@ -377,7 +417,7 @@ function Draw() {
 	drawMonsters("red", "black", center_Monster.x, center_Monster.y);
 
 
-	if (num_of_monsters == 4 && starting_pistol >= 4) {
+	if (num_of_monsters == 4) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -406,7 +446,7 @@ function Draw() {
 		drawMonsters("purple", "black", center_Monster.x, center_Monster.y);
 	}
 
-	else if (num_of_monsters == 2 && starting_pistol >= 2) {
+	else if (num_of_monsters == 2) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -418,7 +458,7 @@ function Draw() {
 
 
 	}
-	else if (num_of_monsters == 3 && starting_pistol >= 3) {
+	else if (num_of_monsters == 3) {
 		//second
 		center_Monster.x = second_monster[0] * 60 + 30;
 		center_Monster.y = second_monster[1] * 60 + 30;
@@ -458,7 +498,7 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
 			var y = cy;
 			var step = Math.PI / spikes;
 
-			context.strokeSyle = "#000";
+			context.strokeStyle = "#000";
 			context.beginPath();
 			context.moveTo(cx, cy - outerRadius)
 			for (i = 0; i < spikes; i++) {
@@ -479,9 +519,26 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
 			context.stroke();
 			context.fillStyle = 'lightcyan';
 			context.fill();
+			context.strokeStyle = 'tranaparent';
 		}
 
 	}
+}
+
+function drawSlowMotionClock(){
+	if(checkIfPacmanIsThere(4,9)){
+		not_collected_clock_yet = false;
+		//CHANGE INTERVAL OF MONSTER FOR SOME TIME;
+		monster_update_interval = 16;
+		setTimeout(function() { window.monster_update_interval = 4; }, 15000);
+	}
+	else{
+		// draw clock
+		context.beginPath();
+		context.strokeStyle = "000";
+		context.arc(60*4 +30, 60*9 +30, 30, 0, 2 * Math.PI);
+		context.stroke();
+	} 
 }
 function checkIfPacmanIsThere(x, y) {
 	if (x == pacman_position[0] && y == pacman_position[1])
@@ -489,28 +546,25 @@ function checkIfPacmanIsThere(x, y) {
 	return false;
 }
 function initializeBoardAfterDeath(index) {
-	clearInterval(interval);
+//	clearInterval(interval);
 	var currTime = new Date();
 	if (index == 1) {
 		score = score - 20;
 		life -= 2;
-
 	}
 	else {
 		score = score - 10;
 		life--;
-
 	}
 	if (life <= 0) {
 		gameOverLoser();
 		return;
-
 	}
 	else {
 		window.alert("You have been killed. " + life + " life remain");
+
 	}
 	time_to_reduce += ( currTime - (new Date()) );
-
 	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
@@ -528,42 +582,14 @@ function initializeBoardAfterDeath(index) {
 			foundFreeCell = true;
 		}
 	}
-	if(gameIsOn)
-		interval = setInterval(UpdatePosition, 200);
+	// if(gameIsOn==true){
+	//  			interval = setInterval(UpdatePosition, 200);		
+	// }
 
 }
 
 function updatePositionForMonster() {
-	//still not all of the monsters is out
-	if (starting_pistol < num_of_monsters) {
-		if (starting_pistol == 0) {
-			//first monster on her way 
-			first_monster = [9, 9];
 
-		}
-		else if (starting_pistol == 1) {
-			//second monster on her way
-			second_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-
-		}
-		else if (starting_pistol == 2) {
-			third_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-			second_monster = chaseAfterPacman(second_monster);
-
-
-		}
-		else if (starting_pistol == 3) {
-			fourth_monster = [9, 9];
-			first_monster = chaseAfterPacman(first_monster);
-			second_monster = chaseAfterPacman(second_monster);
-			third_monster = chaseAfterPacman(third_monster);
-		}
-
-	}
-	else {
-		//all monsters already got out
 		if (num_of_monsters == 4) {
 			first_monster = chaseAfterPacman(first_monster);
 			second_monster = chaseAfterPacman(second_monster);
@@ -582,9 +608,8 @@ function updatePositionForMonster() {
 		else {
 			first_monster = chaseAfterPacman(first_monster);
 		}
-	}
+	
 
-	starting_pistol++;
 	var choose_position_for_star = false;
 
 	while (!choose_position_for_star) {
@@ -643,17 +668,6 @@ function drawMonsters(color, eyeColor, row, col) {
 		context.fillStyle = "black";
 		context.fill();
 		context.stroke();
-		// context.stroke();
-		// context.beginPath();
-		// context.moveTo(140, 59);
-		// context.lineTo(140,80);
-		// context.lineTo(170,80);
-		// context.lineTo(170,60);
-		// context.stroke();
-		// context.beginPath();
-		// context.moveTo(155, 58);
-		// context.lineTo(155,80);
-		// context.stroke();
 	}
 }
 
@@ -927,7 +941,7 @@ function UpdatePosition() {
 
 	if (eaten_candies == candy_num) {
 		window.clearInterval(interval);
-		gameOver();
+		gameOverWinner();
 		return;
 	} else {
 		Draw();

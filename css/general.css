@@ -85,6 +85,12 @@
     width:100%;
 }
 
+#gameOverLoserBox, #gameOverWinnerBox {
+  margin-left: 30%;
+  margin-top: 10%;
+  text-align: center;
+}
+
   .form{
     height: 80%;	
     background-color: #98d4f3;
@@ -202,7 +208,7 @@
 
 
 
-  .welcomeButton{
+  .welcomeButton, .gameOverButton{
     background-color: #F90;
     color: white;
     height: 50px;

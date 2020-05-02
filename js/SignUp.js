@@ -1,7 +1,10 @@
 function register() {
-	document.getElementById("register").style.display='block' ;
-	document.getElementById("login").style.display='none' ;
-	document.getElementById("welcome").style.display='none' ;
+   displayNoneAllScreens();
+   document.getElementById("register").style.display='block' ;
+
+	// document.getElementById("register").style.display='block' ;
+	// document.getElementById("login").style.display='none' ;
+	// document.getElementById("welcome").style.display='none' ;
 	$("#registration_form").submit(function(e){
 		e.preventDefault();
 		//validateRegister();
