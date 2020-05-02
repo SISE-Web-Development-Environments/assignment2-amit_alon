@@ -525,8 +525,8 @@ function initializeBoardAfterDeath(index) {
 			foundFreeCell = true;
 		}
 	}
-
-	interval = setInterval(UpdatePosition, 200);
+	if(gameIsOn)
+		interval = setInterval(UpdatePosition, 200);
 
 }
 
