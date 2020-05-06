@@ -1,5 +1,5 @@
 var context;
-var shape = new Object();
+var shape;
 var board;
 var score;
 var pac_color;
@@ -16,17 +16,18 @@ var gameIsOn=false;
 var monster_update_interval= 4;
 var num_of_monsters;
 var pacman_position;
-var first_monster = [9,9];
-var second_monster = [0,0];
-var third_monster = [9,0];
-var fourth_monster = [0,9];
+var first_monster;
+var second_monster;
+var third_monster;
+var fourth_monster;
 var random_choice;
-var moving_fifty_points = [9, 0];
+var moving_fifty_points = [6,6];
 var not_collected_star_yet = true;
 var not_collected_clock_yet = true;
 var counter_monster_update = 0;
 var life = 5;
-var time_to_reduce;
+var time_to_reduce ;
+
 
 // settings vars:
 var keyUP = 38;
@@ -72,7 +73,10 @@ function startOver() {
 	endGame();
 	life=5;
 	eaten_candies = 0;
+	not_collected_clock_yet = true;
+	not_collected_star_yet = true;
 	setUpGame();
+	
 }
 
 function endGame() {
@@ -116,7 +120,6 @@ function gameOverWinner(){
 }
 
 function setUpGame() {
-
 	displayNoneAllScreens()
 	document.getElementById("GameScreen").style.display = 'block';
 
@@ -143,7 +146,12 @@ function playAudio(){
 
 function Start() {
 	playAudio();
+	first_monster = [9,9];
+	second_monster = [0,0];
+	third_monster = [9,0];
+	fourth_monster = [0,9];
 	gameIsOn=true;
+	shape = new Object();
 	board = new Array();
 	life=5;
 	time_elapsed = 0;
@@ -160,6 +168,7 @@ function Start() {
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
+	loop:
 		for (var j = 0; j < 10; j++) {
 			if (
 				(i == 3 && j == 3) ||
@@ -185,21 +194,24 @@ function Start() {
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
 					//do not put pacman in corner at first position
 					if(isInCorner(i,j)){
-						if(j == 9){
-							shape.i = i;
-							shape.j = j - 3;
-							pacman_remain--;
-							board[i][j- 3] = 2;
-						}
+						board[i][j] = 0;
+						break loop;
+						// if(j == 9){
+						// 	shape.i = i;
+						// 	shape.j = j - 3;
+						// 	pacman_remain--;
+						// 	board[i][j- 3] = 2;
+						// }
 							
-						else{
-							shape.i = i;
-							shape.j = j + 3;
-							pacman_remain--;
-							board[i][j + 3] = 2;
-						} 
+						// else{
+						// 	shape.i = i;
+						// 	shape.j = j + 3;
+						// 	pacman_remain--;
+						// 	board[i][j + 3] = 2;
+						// } 
 					}
 					else{
+						//debugger;
 						shape.i = i;
 						shape.j = j;
 						pacman_remain--;
@@ -215,7 +227,20 @@ function Start() {
 		}
 	}
 
-
+	if(pacman_remain == 1 ){
+		debugger;
+		while (pacman_remain > 0) {
+			var emptyCell = findRandomEmptyCell(board);
+			if(!isInCorner(emptyCell[0],emptyCell[1])){
+				debugger;
+				board[emptyCell[0]][emptyCell[1]] = 5;
+				pacman_remain--;
+				shape.i = emptyCell[0];
+				shape.j = emptyCell[1];
+				board[shape.i][shape.j] = 2;
+			}
+		}
+	}
 	while (food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 5;
@@ -257,8 +282,8 @@ function findRandomEmptyCell(board) {
 
 
 function isInCorner(i,j){
-	if(i == 9 || i == 0){
-		if(j == 0 || j == 9) return true;
+	if((i >= 7 && j <= 2) || (j >= 7 && i <= 2) || (i <= 2 && j <= 2) || (i >= 7 && j >= 7) ){
+		 return true;
 	}
 	return false;
 }
@@ -488,17 +513,17 @@ function Draw() {
 		drawMonsters("green", "black", center_Monster.x, center_Monster.y);
 
 	}
-	if (not_collected_star_yet)
-		drawStar(moving_fifty_points[0] * 60 + 30, moving_fifty_points[1] * 60 + 30, 5, 20, 10);
+	if(not_collected_star_yet)
+		drawStar(moving_fifty_points[0]*60 +30, moving_fifty_points[1]*60 +30, 5, 20, 10);
+		
+	if(not_collected_clock_yet){
+		drawSlowMotionClock();	
+	}
 
 }
-
-
-
-function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
-	if (board[moving_fifty_points[0]][moving_fifty_points[1]] != 4) {
-		if (checkIfPacmanIsThere(moving_fifty_points[0], moving_fifty_points[1])) {
-			debugger;
+function drawStar(cx, cy, spikes, outerRadius, innerRadius){
+	if(board[moving_fifty_points[0]][moving_fifty_points[1]] != 4){
+		if(checkIfPacmanIsThere(moving_fifty_points[0],moving_fifty_points[1])){
 			score += 50;
 			not_collected_star_yet = false;
 		}
@@ -529,7 +554,6 @@ function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
 			context.stroke();
 			context.fillStyle = 'lightcyan';
 			context.fill();
-			context.strokeStyle = 'tranaparent';
 		}
 
 	}
@@ -540,14 +564,32 @@ function drawSlowMotionClock(){
 		not_collected_clock_yet = false;
 		//CHANGE INTERVAL OF MONSTER FOR SOME TIME;
 		monster_update_interval = 16;
-		setTimeout(function() { window.monster_update_interval = 4; }, 15000);
+		setTimeout(function() { window.monster_update_interval = 4; }, 10000);
 	}
 	else{
 		// draw clock
 		context.beginPath();
-		context.strokeStyle = "000";
+		context.strokeStyle = "black";
 		context.arc(60*4 +30, 60*9 +30, 30, 0, 2 * Math.PI);
+		context.lineWidth = 2;
+		context.fillStyle = "white";
+		context.fill();
 		context.stroke();
+		context.beginPath();
+		context.arc(60*4 +30, 60*9 +30, 3, 0, 2 * Math.PI);
+		context.fillStyle = "black";
+		context.fill();
+		context.stroke();
+		context.beginPath();
+		context.moveTo(60*4 +30,60*9 +30);
+		context.lineTo(60*4 +30,60*9 + 2);
+		context.stroke();
+		context.beginPath();
+		context.moveTo(60*4 +30,60*9 +30);
+		context.lineTo(60*4 +49,60*9 + 23);
+		context.stroke();
+
+
 	} 
 }
 function checkIfPacmanIsThere(x, y) {
@@ -559,7 +601,7 @@ function initializeBoardAfterDeath(index) {
 //	clearInterval(interval);
 	var currTime = new Date();
 	if (index == 1) {
-		score = score - 20;
+		score = score - 60;
 		life -= 2;
 	}
 	else {
@@ -575,12 +617,11 @@ function initializeBoardAfterDeath(index) {
 
 	}
 	time_to_reduce += ( currTime - (new Date()) );
-	starting_pistol = 0;
 	board[pacman_position[0]][pacman_position[1]] = 0;
 	var foundFreeCell = false;
 	while (!foundFreeCell) {
-		var row = Math.floor(Math.random() * 9);
-		var col = Math.floor(Math.random() * 9);
+		var row = Math.floor(Math.random() *4) + 3;
+		var col = Math.floor(Math.random() *4) + 3;
 		if (board[row][col] != 4) {
 			score += board[row][col];
 			eaten_candies++;
@@ -592,9 +633,12 @@ function initializeBoardAfterDeath(index) {
 			foundFreeCell = true;
 		}
 	}
-	// if(gameIsOn==true){
-	//  			interval = setInterval(UpdatePosition, 200);		
-	// }
+	first_monster = [9,9];
+	second_monster = [0,0];
+	third_monster = [9,0];
+	fourth_monster = [0,9];
+	
+	//interval = setInterval(UpdatePosition, 200);
 
 }
 
@@ -907,6 +951,15 @@ function which_is_equal(mrow, mcol, prow, pcol) {
 }
 
 function UpdatePosition() {
+	if(shape == undefined ){
+		shape = new Object();
+	}
+	if(shape.i == undefined){
+		debugger;
+		var a = pacman_position;
+		shape.i = pacman_position[0];
+		
+	}
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x !== undefined) {
