@@ -82,6 +82,10 @@ function endGame() {
 	time_elapsed = 0;
 	eaten_candies = 0;
 	score = 0;
+	// stop audio:
+	document.getElementById("generalSound").pause();
+	document.getElementById("generalSound").currentTime =0;
+
 }
 
 function gameOverTimeOut() {
@@ -131,8 +135,14 @@ function freeUserName(s) {
 	return true;
 }
 
+function playAudio(){
+	document.getElementById("generalSound").play();
+	document.getElementById("generalSound").volume=0.4;
+	}
+		
 
 function Start() {
+	playAudio();
 	gameIsOn=true;
 	board = new Array();
 	life=5;
