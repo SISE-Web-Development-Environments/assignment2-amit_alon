@@ -554,7 +554,7 @@ function drawSlowMotionClock(){
 		not_collected_clock_yet = false;
 		//CHANGE INTERVAL OF MONSTER FOR SOME TIME;
 		monster_update_interval = 16;
-		setTimeout(function() { window.monster_update_interval = 4; }, 15000);
+		setTimeout(function() { window.monster_update_interval = 4; }, 10000);
 	}
 	else{
 		// draw clock
